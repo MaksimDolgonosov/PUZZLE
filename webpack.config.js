@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack'); //to access built-in plugins
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: './src/index.ts',
@@ -32,5 +33,6 @@ module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new CopyPlugin({patterns: [{ from: "./src/assets", to: "./assets" }]}),
   ],
 };
