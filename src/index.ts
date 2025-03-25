@@ -1,3 +1,5 @@
 import "./style.scss";
 
-console.log("testdfh");
+import App from "./components/app/app";
+
+new App().start();

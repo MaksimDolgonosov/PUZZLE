@@ -3,14 +3,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack'); //to access built-in plugins
 const CopyPlugin = require("copy-webpack-plugin");
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const devServer = (isDev) => {
   !isDev ? {} : {
-    open: true,
-    hot: true,
-    port: 8080,
+    client: {
+      open: true,
+      hot: true,
+      port: 8080,
+    }
+
 }}
 
+const esLintPlugin = (isDev) => isDev ? [] : [new ESLintPlugin({ extensions: ['ts', 'js'] })];
 
 module.exports = ({ develop }) => ({
   mode: develop ? "development" : "production",
@@ -50,10 +55,11 @@ module.exports = ({ develop }) => ({
     extensions: ['.ts', '.js'], //позволяет не указывать расширение в импортах
   },
   plugins: [
+    ...esLintPlugin(develop),
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: 'style.css' }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
     new CopyPlugin({patterns: [{ from: "./src/assets", to: "./assets" }]}),
   ],
-   ...devServer(develop)
+  devServer: devServer(develop)
 });
