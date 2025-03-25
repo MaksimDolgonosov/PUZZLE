@@ -1,1 +1,3 @@
-let a: string = "ttttt";
+import "./style.scss";
+
+console.log("testdfh");
