@@ -57,8 +57,10 @@ module.exports = ({ develop }) => ({
   plugins: [
     ...esLintPlugin(develop),
     new webpack.ProgressPlugin(),
-    new MiniCssExtractPlugin({ filename: 'style.css' }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({ template: './src/pages/login.html',filename: 'login.html', }),
+    new HtmlWebpackPlugin({ template: './src/pages/game.html', filename: 'game.html', }),
+    new MiniCssExtractPlugin({ filename: 'style.css' }),
     new CopyPlugin({patterns: [{ from: "./src/assets", to: "./assets" }]}),
   ],
   devServer: devServer(develop)
