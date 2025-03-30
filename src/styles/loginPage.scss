@@ -1,24 +1,35 @@
-.loginPage__wrapper {
-  padding: 20px;
-  width: 300px;
-  height: 200px;
-  background-color: rgba(0, 0, 0, 0.856);
-  border-radius: 10px;
-  h2 {
-    margin-top: 15px;
-    text-align: center;
-    color: azure;
-    font-weight: 300;
-    font-size: 24px;
-  }
-  input {
-    margin: 20px auto;
-    display: block;
+.loginPage {
+  &__wrapper {
+    padding: 20px;
     width: 300px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    background-color: azure;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.856);
+    border-radius: 10px;
+    h2 {
+      margin-top: 15px;
+      text-align: center;
+      color: azure;
+      font-weight: 300;
+      font-size: 24px;
+    }
+    input {
+      margin: 20px auto;
+      display: block;
+      width: 300px;
+      height: 40px;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      background-color: azure;
+    }
+  }
+  &__errorMsg {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: #ff000000;
+  }
+  #submitLogin {
+    margin: 10px auto 0 auto;
   }
 }

@@ -12,8 +12,18 @@ export default class SetLogin {
         "#firstname"
       ) as HTMLInputElement;
       const lastname = document.querySelector("#lastname") as HTMLInputElement;
-      console.log(firstname.value);
-      console.log(lastname.value);
+      const errorMsg = document.querySelector(
+        ".loginPage__errorMsg"
+      ) as HTMLDivElement;
+      console.log(!firstname.value && !lastname.value);
+      if (firstname.value && lastname.value) {
+        console.log(firstname.value);
+        console.log(lastname.value);
+
+        window.location.href = "game.html";
+      } else {
+        errorMsg.style.color = "#ff0000";
+      }
     });
   }
 }
