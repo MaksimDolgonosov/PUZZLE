@@ -1,0 +1,49 @@
+.container {
+  margin: 0 auto;
+  width: 1280px;
+}
+
+.game {
+  &__field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 20px auto;
+    width: 768px;
+    height: 600px;
+    background-color: #c5c5c5;
+    // background-image: url("./assets/images/level1/riverla2.jpg");
+  }
+  &__item {
+    width: 96px;
+    height: 60px;
+    // border: 1px solid black;
+    font-weight: 500;
+    text-align: center;
+    line-height: 60px;
+    background-image: url("./assets/images/level1/riverla2.jpg");
+  }
+}
+
+#two {
+  background-position: -96px -60px;
+}
+#three {
+  background-position: -192px 0px;
+}
+#four {
+  background-position: -288px 0px;
+}
+#five {
+  background-position: -384px 0px;
+}
+#six {
+  background-position: -480px 0px;
+}
+#seven {
+  background-position: -576px 0px;
+}
+#eight {
+  background-position: -672px 0px;
+}
