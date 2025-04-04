@@ -71,22 +71,24 @@ export default class Game {
     });
 
     this.answerField.addEventListener("click", (e: MouseEvent) => {
-      this.putOnGameField(e);
+      const target = e.target as HTMLDivElement;
+      if (target.classList.contains("game__item")) {
+        this.putOnGameField(e);
+      }
     });
     this.gameItems[this.line].addEventListener("click", (e: MouseEvent) => {
-      for (let i = 0; i < this.gameItems[this.line].children.length; i++) {
-        (
-          this.gameItems[this.line].children[i] as HTMLDivElement
-        ).style.boxShadow = this.resetPosition;
+      const target = e.target as HTMLDivElement;
+      if (target.classList.contains("game__item")) {
+        for (let i = 0; i < this.gameItems[this.line].children.length; i++) {
+          (
+            this.gameItems[this.line].children[i] as HTMLDivElement
+          ).style.boxShadow = this.resetPosition;
+        }
+
+        this.putOnAnswerField(e);
       }
-
-      // ([...this.gameItems[this.line].children] as Array<HTMLDivElement>).forEach(element => {
-
-      // })
-      this.putOnAnswerField(e);
     });
     this.checkBtn.addEventListener("click", () => this.check(this.line));
-    // console.log(this.answerField);
   }
 
   putOnGameField(e: MouseEvent) {
@@ -102,6 +104,9 @@ export default class Game {
     const answerField = document.querySelector(
       ".answer__field"
     ) as HTMLDivElement;
+    const modal = document.querySelector(
+      ".game__modal_wrapper"
+    ) as HTMLDivElement;
     const gameItems = document.querySelectorAll(
       ".game__items"
     ) as NodeListOf<HTMLDivElement>;
@@ -116,14 +121,7 @@ export default class Game {
       const checkedArr = [...gameItems[line].children].map(
         (item) => item.textContent
       );
-      // console.log(
-      //   [...gameItems[line].children].map((item) => item.textContent)
-      // );
-      // (gameItems[line].children[2] as HTMLDivElement).style!.boxShadow =
-      //   "0px -5px 6px -5px rgba(255, 0, 0, 1) inset";
-      // console.log(this.str);
       Array.from(gameItems[line].children).forEach((element, i) => {
-        console.log(element.textContent, this.str[i]);
         if (element.textContent === this.str[i]) {
           (gameItems[line].children[i] as HTMLDivElement).style.boxShadow =
             this.truePosition;
@@ -132,7 +130,9 @@ export default class Game {
             this.falsePosition;
         }
       });
-      console.log(gameItems[line].children);
+      if (checkedArr.join(" ") === this.str.join(" ")) {
+        modal.style.display = "flex";
+      }
     }
   }
 
