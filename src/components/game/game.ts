@@ -45,10 +45,6 @@ export default class Game {
   }
 
   start(line: number) {
-    // const str: string[] =
-    //   "The students agree they have too match homework".split(" ");
-    // const gameField = document.querySelector(".game__field");
-
     const div = document.createElement("div") as HTMLDivElement;
     const currentLine = document.querySelector(
       `[data-line="${line}"]`
@@ -57,27 +53,43 @@ export default class Game {
     currentLine!.style.opacity = "1";
     currentLine!.style.color = "red";
     div.classList.add("game__item");
-    const sentence = new Array(this.str.length).fill(div);
+    // const sentence = new Array(this.str.length).fill(div);
 
     const answer: string[] = this.str.map((item, i) => {
       return `<div class="game__item" style="background-position: -${
         96 * i
-      }px ${-((line - 1) * 43)}px;">${item}</div>`;
+      }px ${-((line - 1) * 43)}px; padding: ${0};">${item}</div>`;
     });
+
     const startPosition = this.shuffle(answer);
     startPosition.forEach((item) => {
       this.answerField!.innerHTML += item;
-      // this.gameField!.innerHTML += item;
     });
+
+    const answerField = document.querySelector(
+      ".answer__field"
+    ) as HTMLDivElement;
+
+    console.log(answerField.computedStyleMap().size);
 
     this.answerField.addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLDivElement;
+      const gameItems = document.querySelectorAll(
+        ".game__items"
+      ) as NodeListOf<HTMLDivElement>;
       if (target.classList.contains("game__item")) {
         this.putOnGameField(e);
+      }
+
+      if (gameItems[this.line].children.length === this.str.length) {
+        this.checkBtn.style.opacity = "1";
       }
     });
     this.gameItems[this.line].addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLDivElement;
+      const gameItems = document.querySelectorAll(
+        ".game__items"
+      ) as NodeListOf<HTMLDivElement>;
       if (target.classList.contains("game__item")) {
         for (let i = 0; i < this.gameItems[this.line].children.length; i++) {
           (
@@ -86,6 +98,9 @@ export default class Game {
         }
 
         this.putOnAnswerField(e);
+      }
+      if (gameItems[this.line].children.length !== this.str.length) {
+        this.checkBtn.style.opacity = "0";
       }
     });
     this.checkBtn.addEventListener("click", () => this.check(this.line));
