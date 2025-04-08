@@ -58,7 +58,7 @@ export default class Game {
     const answer: string[] = this.str.map((item, i) => {
       return `<div class="game__item" style="background-position: -${
         96 * i
-      }px ${-((line - 1) * 43)}px; padding: ${0};">${item}</div>`;
+      }px ${-((line - 1) * 43)}px;">${item}</div>`;
     });
 
     const startPosition = this.shuffle(answer);
@@ -70,7 +70,34 @@ export default class Game {
       ".answer__field"
     ) as HTMLDivElement;
 
-    console.log(answerField.computedStyleMap().size);
+    // const size = answerField;
+    let size: number = 0;
+
+    const itemsWithoutPaddings = answerField.querySelectorAll(
+      ".game__item"
+    ) as NodeListOf<HTMLDivElement>;
+
+    for (let i = 0; i < itemsWithoutPaddings.length; i++) {
+      // itemsWithoutPaddings[i].style.padding = `0 ${
+      //   (768 - size) / this.str.length / 2
+      // }px`;
+      size += itemsWithoutPaddings[i].getBoundingClientRect().width;
+      itemsWithoutPaddings[i];
+      // console.log(itemsWithoutPaddings[i].getBoundingClientRect().width);
+    }
+    for (let i = 0; i < itemsWithoutPaddings.length; i++) {
+      itemsWithoutPaddings[i].style.padding = `0 ${
+        (768 - size) / this.str.length / 2
+      }px`;
+    }
+    for (let i = 0; i < itemsWithoutPaddings.length; i++) {
+      const width = itemsWithoutPaddings[i].getBoundingClientRect().width;
+      itemsWithoutPaddings[i].style.backgroundPosition = `-${width * i}px ${-(
+        (line - 1) *
+        43
+      )}px`;
+    }
+    // console.log(size);
 
     this.answerField.addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLDivElement;
