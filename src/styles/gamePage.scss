@@ -18,7 +18,7 @@
     // height: 600px;
     height: 430px;
     background-color: #c5c5c5;
-    background-image: url("./assets/images/level1/riverla2.jpg");
+    // background-image: url("./assets/images/level1/riverla2.jpg");
   }
   &__items {
     display: flex;
@@ -130,10 +130,10 @@
 }
 .buttons__field {
   margin: 10px auto;
-  width: 768px;
+  width: 390px;
   height: 45px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   button {
     margin: 5px 10px;
@@ -148,7 +148,10 @@
     font-weight: 500;
     border-radius: 5px;
     &.buttons__field__check {
-      opacity: 0;
+      display: none;
+    }
+    &.buttons__field__next {
+      display: none;
     }
   }
 }

@@ -1,3 +1,5 @@
+import remBoxShadow from "../services/remBoxShadow";
+
 export default class Game {
   level: string;
   page: string;
@@ -6,6 +8,7 @@ export default class Game {
   gameItems: NodeListOf<HTMLDivElement>;
   answerField: HTMLDivElement;
   checkBtn: HTMLButtonElement;
+  nextBtn: HTMLButtonElement;
   str: string[];
   truePosition: "0px -5px 6px -5px rgba(122, 208, 20, 1) inset";
   falsePosition: "0px -5px 6px -5px rgba(255, 0, 0, 1) inset";
@@ -18,7 +21,9 @@ export default class Game {
     this.answerField = document.querySelector(".answer__field") as HTMLDivElement;
     this.gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
     this.checkBtn = document.querySelector(".buttons__field__check") as HTMLButtonElement;
-    this.str = "The students agree they have too match homework".split(" ");
+    this.nextBtn = document.querySelector(".buttons__field__next") as HTMLButtonElement;
+    //this.str = "The students agree they have too match homework".split(" ");
+    this.str = "The students agree".split(" ");
     this.truePosition = "0px -5px 6px -5px rgba(122, 208, 20, 1) inset";
     this.falsePosition = "0px -5px 6px -5px rgba(255, 0, 0, 1) inset";
     this.resetPosition = "none";
@@ -41,7 +46,7 @@ export default class Game {
   start(line: number) {
     let size: number = 0;
     let width: number = 0;
-
+    console.log("line: ", line);
     const currentLine = document.querySelector(`[data-line="${line}"]`) as HTMLDivElement;
     currentLine!.style.opacity = "1";
     currentLine!.style.color = "red";
@@ -89,7 +94,7 @@ export default class Game {
       }
 
       if (gameItems[this.line].children.length === this.str.length) {
-        this.checkBtn.style.opacity = "1";
+        this.checkBtn.style.display = "block";
       }
     });
     this.gameItems[this.line].addEventListener("click", (e: MouseEvent) => {
@@ -103,10 +108,21 @@ export default class Game {
         this.putOnAnswerField(e);
       }
       if (gameItems[this.line].children.length !== this.str.length) {
-        this.checkBtn.style.opacity = "0";
+        this.checkBtn.style.display = "none";
       }
     });
-    this.checkBtn.addEventListener("click", () => this.check(this.line));
+    this.checkBtn.addEventListener("click", () => {
+      this.check(this.line);
+    });
+
+    this.nextBtn.addEventListener("click", () => {
+      console.log("Push button pressed");
+      remBoxShadow();
+      this.line += 1;
+
+      this.start(this.line + 1);
+      this.nextBtn.style.display = "none";
+    });
   }
 
   putOnGameField(e: MouseEvent) {
@@ -119,26 +135,19 @@ export default class Game {
   }
 
   check(line: number) {
-    const answerField = document.querySelector(".answer__field") as HTMLDivElement;
-    const modal = document.querySelector(".game__modal_wrapper") as HTMLDivElement;
     const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
-    const errorField = document.querySelector(".error__field") as HTMLDivElement;
-    if (answerField.children.length > 0) {
-      errorField.style.opacity = "1";
-      // console.log("Please, insert all puzzles on the field!");
-    } else {
-      errorField.style.opacity = "0";
-      const checkedArr = [...gameItems[line].children].map((item) => item.textContent);
-      Array.from(gameItems[line].children).forEach((element, i) => {
-        if (element.textContent === this.str[i]) {
-          (gameItems[line].children[i] as HTMLDivElement).style.boxShadow = this.truePosition;
-        } else {
-          (gameItems[line].children[i] as HTMLDivElement).style.boxShadow = this.falsePosition;
-        }
-      });
-      if (checkedArr.join(" ") === this.str.join(" ")) {
-        modal.style.display = "flex";
+
+    Array.from(gameItems[line].children).forEach((element, i) => {
+      if (element.textContent === this.str[i]) {
+        (gameItems[line].children[i] as HTMLDivElement).style.boxShadow = this.truePosition;
+      } else {
+        (gameItems[line].children[i] as HTMLDivElement).style.boxShadow = this.falsePosition;
       }
+    });
+    const checkedArr = [...gameItems[line].children].map((item) => item.textContent);
+    if (checkedArr.join(" ") === this.str.join(" ")) {
+      this.checkBtn.style.display = "none";
+      this.nextBtn.style.display = "block";
     }
   }
 
