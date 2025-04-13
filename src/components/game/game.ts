@@ -1,5 +1,4 @@
-import remBoxShadow from "../services/remBoxShadow";
-
+import shuffle from "../services/shuffle";
 export default class Game {
   level: string;
   page: string;
@@ -29,20 +28,6 @@ export default class Game {
     this.resetPosition = "none";
   }
 
-  shuffle(array: HTMLDivElement[]) {
-    const arr = array.concat([]);
-    let m: number = arr.length;
-    let t: HTMLDivElement;
-    let i: number;
-    while (m) {
-      i = Math.floor(Math.random() * m--);
-      t = arr[m];
-      arr[m] = arr[i];
-      arr[i] = t;
-    }
-    return arr;
-  }
-
   start(line: number) {
     let size: number = 0;
     let width: number = 0;
@@ -53,7 +38,6 @@ export default class Game {
 
     const answer: string[] = this.str.map((item, i) => {
       return `<div class="game__item">${item}</div>`;
-      // return `<div class="game__item" style="background-position: -${96 * i}px ${-((line - 1) * 43)}px;">${item}</div>`;
     });
 
     //const startPosition = this.shuffle(answer);
@@ -80,7 +64,7 @@ export default class Game {
     }
     const itemsWithPaddings = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
     this.answerField.innerHTML = "";
-    const startPosition = this.shuffle([...itemsWithPaddings]);
+    const startPosition = shuffle([...itemsWithPaddings]);
     this.answerField!.style.opacity = "1";
     startPosition.forEach((item) => {
       this.answerField.append(item);
@@ -90,44 +74,32 @@ export default class Game {
       const target = e.target as HTMLDivElement;
       const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
       if (target.classList.contains("game__item")) {
-        this.putOnGameField(e);
+        this.putOnGameField(e, line);
       }
 
-      if (gameItems[this.line].children.length === this.str.length) {
+      if (gameItems[line - 1].children.length === this.str.length) {
         this.checkBtn.style.display = "block";
       }
     });
-    this.gameItems[this.line].addEventListener("click", (e: MouseEvent) => {
+    this.gameItems[line - 1].addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLDivElement;
       const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
       if (target.classList.contains("game__item")) {
-        for (let i = 0; i < this.gameItems[this.line].children.length; i++) {
-          (this.gameItems[this.line].children[i] as HTMLDivElement).style.boxShadow = this.resetPosition;
+        for (let i = 0; i < this.gameItems[line - 1].children.length; i++) {
+          (this.gameItems[line - 1].children[i] as HTMLDivElement).style.boxShadow = this.resetPosition;
         }
 
         this.putOnAnswerField(e);
       }
-      if (gameItems[this.line].children.length !== this.str.length) {
+      if (gameItems[line - 1].children.length !== this.str.length) {
         this.checkBtn.style.display = "none";
       }
     });
-    this.checkBtn.addEventListener("click", () => {
-      this.check(this.line);
-    });
-
-    this.nextBtn.addEventListener("click", () => {
-      console.log("Push button pressed");
-      remBoxShadow();
-      this.line += 1;
-
-      this.start(this.line + 1);
-      this.nextBtn.style.display = "none";
-    });
   }
 
-  putOnGameField(e: MouseEvent) {
+  putOnGameField(e: MouseEvent, line: number) {
     const element = e.target as HTMLDivElement;
-    this.gameItems[this.line].append(element);
+    this.gameItems[line - 1].append(element);
   }
   putOnAnswerField(e: MouseEvent) {
     const element = e.target as HTMLDivElement;
@@ -146,6 +118,7 @@ export default class Game {
     });
     const checkedArr = [...gameItems[line].children].map((item) => item.textContent);
     if (checkedArr.join(" ") === this.str.join(" ")) {
+      console.log("Word true");
       this.checkBtn.style.display = "none";
       this.nextBtn.style.display = "block";
     }
