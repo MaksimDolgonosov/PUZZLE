@@ -1,16 +1,48 @@
 import "./style.scss";
 
 import remBoxShadow from "./components/services/remBoxShadow";
-import App from "./components/app/app";
+// import App from "./components/app/app";
 import Game from "./components/game/game";
+
+let line: number = 1;
+const game = new Game("1", "1");
 
 const nextBtn = document.querySelector(".buttons__field__next") as HTMLButtonElement;
 const checkBtn = document.querySelector(".buttons__field__check") as HTMLButtonElement;
-new App().start();
-let line: number = 1;
+const startBtn = document.querySelector(".startPage__btn") as HTMLButtonElement;
+const startPage = document.querySelector(".startPage") as HTMLDivElement;
+const submitBtn = document.querySelector("#submitLogin") as HTMLButtonElement;
+const loginPage = document.querySelector(".loginPage") as HTMLDivElement;
+const gamePage = document.querySelector(".gamePage") as HTMLDivElement;
+const greeting = document.querySelector(".gamePage__greeting") as HTMLDivElement;
 
-const game = new Game("1", "1");
-game.start(line);
+startBtn.addEventListener("click", () => {
+  startPage.style.display = "none";
+  if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {
+    gamePage.style.display = "flex";
+    greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;
+    game.start(line);
+  } else {
+    loginPage.style.display = "flex";
+  }
+});
+
+submitBtn.addEventListener("click", (e: MouseEvent) => {
+  e.preventDefault();
+  const firstname = document.querySelector("#firstname") as HTMLInputElement;
+  const lastname = document.querySelector("#lastname") as HTMLInputElement;
+  const errorMsg = document.querySelector(".loginPage__errorMsg") as HTMLDivElement;
+  if (firstname.value && lastname.value) {
+    localStorage.setItem("firstname", firstname.value);
+    localStorage.setItem("lastname", lastname.value);
+    loginPage.style.display = "none";
+    gamePage.style.display = "flex";
+    game.start(line);
+    // window.location.href = "game.html";
+  } else {
+    errorMsg.style.color = "#ff0000";
+  }
+});
 
 nextBtn.addEventListener("click", () => {
   console.log("Push button pressed");

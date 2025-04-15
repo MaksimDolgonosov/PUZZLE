@@ -6,13 +6,72 @@
     <title>RSS Puzzle</title>
   </head>
   <body>
-    <main class="startPage">
+    <div class="gamePage">
+      <div class="gamePage__greeting"></div>
+      <div class="container">
+        <div class="count__field">
+          <div class="count__item" data-line="1">1</div>
+          <div class="count__item" data-line="2">2</div>
+          <div class="count__item" data-line="3">3</div>
+          <div class="count__item" data-line="4">4</div>
+          <div class="count__item" data-line="5">5</div>
+          <div class="count__item" data-line="6">6</div>
+          <div class="count__item" data-line="7">7</div>
+          <div class="count__item" data-line="8">8</div>
+          <div class="count__item" data-line="9">9</div>
+          <div class="count__item" data-line="10">10</div>
+        </div>
+        <div class="game__container">
+          <div class="game__field">
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+            <div class="game__items"></div>
+          </div>
+          <div class="answer__field"></div>
+          <!-- <div class="error__field">Please, insert all puzzles on the field!</div> -->
+          <div class="buttons__field">
+            <button class="buttons__field__dontKnow">I don't know</button>
+            <button class="buttons__field__check">Check</button>
+            <button class="buttons__field__next">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="game__modal_wrapper">
+      <div class="game__modal_window">
+        <h4>Gongrats! You finished the level! Do you want to continue or finish game?</h4>
+        <div class="game__modal_buttons">
+          <button class="game__modal_finish">Finish</button>
+          <button class="game__modal_continue">Continue</button>
+        </div>
+      </div>
+    </div> -->
+    <div class="startPage" style="display: flex">
       <div class="startPage__wrapper">
         <h1>English puzzle</h1>
         <h3>Click on words, collect phrases</h3>
         <h3>Words can be drag and drop. Select tooltips in the menu</h3>
-        <a href="./login.html"><button>Start</button></a>
+        <button class="startPage__btn">Start</button>
       </div>
-    </main>
+    </div>
+    <div class="loginPage" style="display: none">
+      <div class="loginPage__wrapper">
+        <h2>Insert your firstname and lastname</h2>
+        <form action="">
+          <input type="text" id="firstname" placeholder="Your firstname" name="firstname" required value="" />
+          <input type="text" id="lastname" placeholder="Your lastname" name="lastname" required value="" />
+          <div class="loginPage__errorMsg">Please fill in all fields</div>
+          <button type="submit" id="submitLogin">Submit</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

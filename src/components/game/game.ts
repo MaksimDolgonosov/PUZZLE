@@ -35,12 +35,14 @@ export default class Game {
     const currentLine = document.querySelector(`[data-line="${line}"]`) as HTMLDivElement;
     currentLine!.style.opacity = "1";
     currentLine!.style.color = "red";
-
+    if (line > 1) {
+      const previousLine = document.querySelector(`[data-line="${line - 1}"]`) as HTMLDivElement;
+      previousLine!.style.color = "black";
+    }
     const answer: string[] = this.str.map((item, i) => {
       return `<div class="game__item">${item}</div>`;
     });
 
-    //const startPosition = this.shuffle(answer);
     this.answerField!.style.opacity = "0";
     answer.forEach((item) => {
       this.answerField!.innerHTML += item;
@@ -49,7 +51,6 @@ export default class Game {
     const answerField = document.querySelector(".answer__field") as HTMLDivElement;
 
     const itemsWithoutPaddings = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
-
     for (let i = 0; i < itemsWithoutPaddings.length; i++) {
       size += itemsWithoutPaddings[i].getBoundingClientRect().width;
       itemsWithoutPaddings[i];
