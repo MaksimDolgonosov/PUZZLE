@@ -7,6 +7,35 @@
     margin: 25px 0 15px 0;
     font-size: 18px;
     font-weight: 500;
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    animation: greeting 2s ease 0s 1 normal forwards;
+  }
+  &__options {
+    width: 768px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &_complexity {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      span {
+        font-weight: 500;
+        display: inline-block;
+        margin-right: 5px;
+      }
+      select {
+        text-align: center;
+        width: 60px;
+        height: 25px;
+        margin-right: 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(161, 161, 161);
+      }
+    }
   }
 }
 
@@ -188,4 +217,56 @@
 }
 #eight {
   background-position: -672px 0px;
+}
+
+@keyframes greeting {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 0;
+    color: rgb(127, 0, 201);
+    transform: translateY(-50px);
+  }
+
+  38% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    color: rgb(127, 0, 201);
+    transform: translateY(0);
+  }
+
+  55% {
+    animation-timing-function: ease-in;
+    color: rgb(112, 0, 177);
+    transform: translateY(-13px);
+  }
+
+  72% {
+    animation-timing-function: ease-out;
+    color: rgb(63, 0, 99);
+    transform: translateY(0);
+  }
+
+  81% {
+    animation-timing-function: ease-in;
+    color: rgb(72, 0, 114);
+    transform: translateY(-7px);
+  }
+
+  90% {
+    animation-timing-function: ease-out;
+    color: rgb(49, 0, 75);
+    transform: translateY(0);
+  }
+
+  95% {
+    animation-timing-function: ease-in;
+    color: rgb(28, 0, 44);
+    transform: translateY(-2px);
+  }
+
+  100% {
+    animation-timing-function: ease-out;
+    color: rgb(108, 0, 158);
+    transform: translateY(0);
+  }
 }

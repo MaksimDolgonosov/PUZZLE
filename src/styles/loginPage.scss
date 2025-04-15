@@ -1,8 +1,17 @@
 .loginPage {
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: url("./assets/images/startPage2.jpg") no-repeat 100% / cover;
   &__wrapper {
+    color: azure;
+    font-weight: 100;
+    width: 50%;
+    height: 300px;
     padding: 20px;
-    width: 300px;
-    height: 200px;
+    // width: 300px;
+    // height: 200px;
     background-color: rgba(0, 0, 0, 0.856);
     border-radius: 10px;
     h2 {
@@ -30,6 +39,20 @@
     color: #ff000000;
   }
   #submitLogin {
-    margin: 10px auto 0 auto;
+    display: block;
+    margin: 20px auto 0 auto;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #942f97;
+    font-size: 16px;
+    color: azure;
+    transition: 0.3s all;
+    cursor: pointer;
+    &:hover {
+      background-color: #832a86;
+      transition: 0.3s all;
+    }
   }
 }

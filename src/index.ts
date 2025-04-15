@@ -5,6 +5,8 @@ import remBoxShadow from "./components/services/remBoxShadow";
 import Game from "./components/game/game";
 
 let line: number = 1;
+let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
+let page: number = localStorage.getItem("page") ? Number(localStorage.getItem("page")) : 1;
 const game = new Game("1", "1");
 
 const nextBtn = document.querySelector(".buttons__field__next") as HTMLButtonElement;
@@ -16,15 +18,18 @@ const loginPage = document.querySelector(".loginPage") as HTMLDivElement;
 const gamePage = document.querySelector(".gamePage") as HTMLDivElement;
 const greeting = document.querySelector(".gamePage__greeting") as HTMLDivElement;
 
+if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {
+  gamePage.style.display = "flex";
+  startPage.style.display = "none";
+  greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;
+  game.start(line);
+} else {
+  startPage.style.display = "flex";
+}
+
 startBtn.addEventListener("click", () => {
   startPage.style.display = "none";
-  if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {
-    gamePage.style.display = "flex";
-    greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;
-    game.start(line);
-  } else {
-    loginPage.style.display = "flex";
-  }
+  loginPage.style.display = "flex";
 });
 
 submitBtn.addEventListener("click", (e: MouseEvent) => {
@@ -37,6 +42,7 @@ submitBtn.addEventListener("click", (e: MouseEvent) => {
     localStorage.setItem("lastname", lastname.value);
     loginPage.style.display = "none";
     gamePage.style.display = "flex";
+    greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;
     game.start(line);
     // window.location.href = "game.html";
   } else {

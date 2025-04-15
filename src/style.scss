@@ -1,7 +1,8 @@
-// @use "./components/startPage/startPage";
+@use "./styles/startPage.scss";
 @use "./styles/loginPage.scss";
 @use "./styles/gamePage.scss";
 
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
@@ -13,62 +14,4 @@
 
 body {
   position: relative;
-}
-
-.startPage,
-.loginPage {
-  // position: absolute;
-  // top: 0;
-  // left: 0;
-  // display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: url("./assets/images/startPage2.jpg") no-repeat 100% / cover;
-  // opacity: 0.9;
-  // z-index: 99;
-
-  &__wrapper {
-    color: azure;
-    font-weight: 100;
-    width: 50%;
-    height: 300px;
-    h1 {
-      font-size: 44px;
-      text-align: center;
-      font-weight: 300;
-      font-stretch: 155%;
-      text-transform: uppercase;
-      margin: 20px 0;
-    }
-    h3 {
-      text-align: center;
-      font-weight: 300;
-      font-stretch: 155%;
-      margin: 10px 0;
-      font-size: 20px;
-    }
-    a {
-      text-decoration: none;
-      color: azure;
-    }
-    button {
-      display: block;
-      margin: 30px auto 0 auto;
-      width: 150px;
-      height: 40px;
-      border-radius: 5px;
-      border: none;
-      background-color: #942f97;
-      font-size: 16px;
-      color: azure;
-      transition: 0.3s all;
-      cursor: pointer;
-      &:hover {
-        background-color: #832a86;
-        transition: 0.3s all;
-      }
-    }
-  }
 }
