@@ -1,13 +1,17 @@
 import "./style.scss";
-
+import level1 from "./assets/data/wordCollectionLevel1";
 import remBoxShadow from "./components/services/remBoxShadow";
 // import App from "./components/app/app";
 import Game from "./components/game/game";
+console.log(level1.roundsCount);
 
 let line: number = 1;
 let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
 let page: number = localStorage.getItem("page") ? Number(localStorage.getItem("page")) : 1;
 const game = new Game("1", "1");
+
+const word: string = level1.rounds[page - 1].words[line - 1].textExample;
+console.log(level1.rounds[page - 1].words[line - 1].textExample);
 
 const nextBtn = document.querySelector(".buttons__field__next") as HTMLButtonElement;
 const checkBtn = document.querySelector(".buttons__field__check") as HTMLButtonElement;
@@ -22,7 +26,7 @@ if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {
   gamePage.style.display = "flex";
   startPage.style.display = "none";
   greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;
-  game.start(line);
+  game.start(line, word);
 } else {
   startPage.style.display = "flex";
 }
@@ -43,7 +47,7 @@ submitBtn.addEventListener("click", (e: MouseEvent) => {
     loginPage.style.display = "none";
     gamePage.style.display = "flex";
     greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;
-    game.start(line);
+    game.start(line, word);
     // window.location.href = "game.html";
   } else {
     errorMsg.style.color = "#ff0000";
@@ -51,17 +55,16 @@ submitBtn.addEventListener("click", (e: MouseEvent) => {
 });
 
 nextBtn.addEventListener("click", () => {
-  console.log("Push button pressed");
   remBoxShadow();
   if (line < 10) {
     line += 1;
-    game.start(line);
+    game.start(line, word);
     nextBtn.style.display = "none";
   }
 });
 
 checkBtn.addEventListener("click", () => {
-  game.check(line - 1);
+  game.check(line - 1, word);
 });
 
 // new Game("1", "1").start(2);

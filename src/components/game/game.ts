@@ -21,14 +21,14 @@ export default class Game {
     this.gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
     this.checkBtn = document.querySelector(".buttons__field__check") as HTMLButtonElement;
     this.nextBtn = document.querySelector(".buttons__field__next") as HTMLButtonElement;
-    //this.str = "The students agree they have too match homework".split(" ");
     this.str = "The students agree".split(" ");
     this.truePosition = "0px -5px 6px -5px rgba(122, 208, 20, 1) inset";
     this.falsePosition = "0px -5px 6px -5px rgba(255, 0, 0, 1) inset";
     this.resetPosition = "none";
   }
 
-  start(line: number) {
+  start(line: number, word: string) {
+    const str: string[] = word.split(" ");
     let size: number = 0;
     let width: number = 0;
     console.log("line: ", line);
@@ -39,7 +39,7 @@ export default class Game {
       const previousLine = document.querySelector(`[data-line="${line - 1}"]`) as HTMLDivElement;
       previousLine!.style.color = "black";
     }
-    const answer: string[] = this.str.map((item, i) => {
+    const answer: string[] = str.map((item, i) => {
       return `<div class="game__item">${item}</div>`;
     });
 
@@ -56,7 +56,7 @@ export default class Game {
       itemsWithoutPaddings[i];
     }
     for (let i = 0; i < itemsWithoutPaddings.length; i++) {
-      itemsWithoutPaddings[i].style.padding = `0 ${(768 - size) / this.str.length / 2}px`;
+      itemsWithoutPaddings[i].style.padding = `0 ${(768 - size) / str.length / 2}px`;
     }
 
     for (let i = 0; i < itemsWithoutPaddings.length; i++) {
@@ -78,7 +78,7 @@ export default class Game {
         this.putOnGameField(e, line);
       }
 
-      if (gameItems[line - 1].children.length === this.str.length) {
+      if (gameItems[line - 1].children.length === str.length) {
         this.checkBtn.style.display = "block";
       }
     });
@@ -92,7 +92,7 @@ export default class Game {
 
         this.putOnAnswerField(e);
       }
-      if (gameItems[line - 1].children.length !== this.str.length) {
+      if (gameItems[line - 1].children.length !== str.length) {
         this.checkBtn.style.display = "none";
       }
     });
@@ -107,18 +107,19 @@ export default class Game {
     this.answerField.append(element);
   }
 
-  check(line: number) {
+  check(line: number, word: string) {
+    const str: string[] = word.split(" ");
     const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
 
     Array.from(gameItems[line].children).forEach((element, i) => {
-      if (element.textContent === this.str[i]) {
+      if (element.textContent === str[i]) {
         (gameItems[line].children[i] as HTMLDivElement).style.boxShadow = this.truePosition;
       } else {
         (gameItems[line].children[i] as HTMLDivElement).style.boxShadow = this.falsePosition;
       }
     });
     const checkedArr = [...gameItems[line].children].map((item) => item.textContent);
-    if (checkedArr.join(" ") === this.str.join(" ")) {
+    if (checkedArr.join(" ") === str.join(" ")) {
       console.log("Word true");
       this.checkBtn.style.display = "none";
       this.nextBtn.style.display = "block";
