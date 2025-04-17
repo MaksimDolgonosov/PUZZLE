@@ -21,6 +21,12 @@ const submitBtn = document.querySelector("#submitLogin") as HTMLButtonElement;
 const loginPage = document.querySelector(".loginPage") as HTMLDivElement;
 const gamePage = document.querySelector(".gamePage") as HTMLDivElement;
 const greeting = document.querySelector(".gamePage__greeting") as HTMLDivElement;
+const levelSelect = document.querySelector(".gamePage__options_level-select") as HTMLSelectElement;
+
+levelSelect.addEventListener("change", (e) => {
+  const selectNum = e.target as HTMLSelectElement;
+  level = +selectNum.value;
+});
 
 if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {
   gamePage.style.display = "flex";
