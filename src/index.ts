@@ -1,5 +1,14 @@
 import "./style.scss";
+import { IImgSouce } from "./types/types";
 import level1 from "./assets/data/wordCollectionLevel1";
+import level2 from "./assets/data/wordCollectionLevel2";
+import level3 from "./assets/data/wordCollectionLevel3";
+import level4 from "./assets/data/wordCollectionLevel4";
+import level5 from "./assets/data/wordCollectionLevel5";
+import level6 from "./assets/data/wordCollectionLevel6";
+
+import setImgSource from "./components/services/setImgSource";
+
 import remBoxShadow from "./components/services/remBoxShadow";
 // import App from "./components/app/app";
 import Game from "./components/game/game";
@@ -8,7 +17,9 @@ console.log(level1.roundsCount);
 let line: number = 1;
 let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
 let page: number = localStorage.getItem("page") ? Number(localStorage.getItem("page")) : 1;
-const game = new Game("1", "1");
+let imgSrc: IImgSouce = setImgSource(level, page);
+
+let game = new Game(imgSrc);
 
 const word: string = level1.rounds[page - 1].words[line - 1].textExample;
 console.log(level1.rounds[page - 1].words[line - 1].textExample);
@@ -22,10 +33,14 @@ const loginPage = document.querySelector(".loginPage") as HTMLDivElement;
 const gamePage = document.querySelector(".gamePage") as HTMLDivElement;
 const greeting = document.querySelector(".gamePage__greeting") as HTMLDivElement;
 const levelSelect = document.querySelector(".gamePage__options_level-select") as HTMLSelectElement;
+const pageSelect = document.querySelector(".gamePage__options_page-select") as HTMLSelectElement;
 
 levelSelect.addEventListener("change", (e) => {
   const selectNum = e.target as HTMLSelectElement;
   level = +selectNum.value;
+  page = 1;
+  imgSrc = setImgSource(level, page);
+  game = new Game(imgSrc);
 });
 
 if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {

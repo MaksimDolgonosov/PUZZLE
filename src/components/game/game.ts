@@ -1,7 +1,10 @@
 import shuffle from "../services/shuffle";
+import { IImgSouce } from "../../types/types";
 export default class Game {
-  level: string;
-  page: string;
+  name: string;
+  src: string;
+  author: string;
+  year: string;
   line: number;
   gameField: HTMLDivElement;
   gameItems: NodeListOf<HTMLDivElement>;
@@ -12,9 +15,11 @@ export default class Game {
   truePosition: "0px -5px 6px -5px rgba(122, 208, 20, 1) inset";
   falsePosition: "0px -5px 6px -5px rgba(255, 0, 0, 1) inset";
   resetPosition: "none";
-  constructor(level: string, page: string) {
-    this.level = level;
-    this.page = page;
+  constructor({ name, src, author, year }: IImgSouce) {
+    this.name = name;
+    this.src = src;
+    this.author = author;
+    this.year = year;
     this.line = 0;
     this.gameField = document.querySelector(".game__field") as HTMLDivElement;
     this.answerField = document.querySelector(".answer__field") as HTMLDivElement;
@@ -40,7 +45,7 @@ export default class Game {
       previousLine!.style.color = "black";
     }
     const answer: string[] = str.map((item, i) => {
-      return `<div class="game__item">${item}</div>`;
+      return `<div class="game__item" style="background-image: url('${this.src}')">${item}</div>`;
     });
 
     this.answerField!.style.opacity = "0";
