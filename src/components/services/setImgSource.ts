@@ -5,9 +5,10 @@ import level4 from "../../assets/data/wordCollectionLevel4";
 import level5 from "../../assets/data/wordCollectionLevel5";
 import level6 from "../../assets/data/wordCollectionLevel6";
 
-import { IImgSouce } from "../../types/types";
+import { IImgSource } from "../../types/types";
+import { IWordSource } from "../../types/types";
 
-export default function setImgSource(level: number, page: number): IImgSouce {
+export default function setImgSource(level: number, page: number): IImgSource {
   console.log("getting img sources");
   switch (level) {
     case 1:
@@ -16,6 +17,7 @@ export default function setImgSource(level: number, page: number): IImgSouce {
         name: level1.rounds[page - 1].levelData.name,
         author: level1.rounds[page - 1].levelData.author,
         year: level1.rounds[page - 1].levelData.year,
+        pages: level1.roundsCount,
       };
     case 2:
       return {
@@ -23,6 +25,7 @@ export default function setImgSource(level: number, page: number): IImgSouce {
         name: level2.rounds[page - 1].levelData.name,
         author: level2.rounds[page - 1].levelData.author,
         year: level2.rounds[page - 1].levelData.year,
+        pages: level2.roundsCount,
       };
     case 3:
       return {
@@ -30,6 +33,7 @@ export default function setImgSource(level: number, page: number): IImgSouce {
         name: level3.rounds[page - 1].levelData.name,
         author: level3.rounds[page - 1].levelData.author,
         year: level3.rounds[page - 1].levelData.year,
+        pages: level3.roundsCount,
       };
     case 4:
       return {
@@ -37,6 +41,7 @@ export default function setImgSource(level: number, page: number): IImgSouce {
         name: level4.rounds[page - 1].levelData.name,
         author: level4.rounds[page - 1].levelData.author,
         year: level4.rounds[page - 1].levelData.year,
+        pages: level4.roundsCount,
       };
     case 5:
       return {
@@ -44,6 +49,7 @@ export default function setImgSource(level: number, page: number): IImgSouce {
         name: level5.rounds[page - 1].levelData.name,
         author: level5.rounds[page - 1].levelData.author,
         year: level5.rounds[page - 1].levelData.year,
+        pages: level5.roundsCount,
       };
     default:
       return {
@@ -51,6 +57,26 @@ export default function setImgSource(level: number, page: number): IImgSouce {
         name: level6.rounds[page - 1].levelData.name,
         author: level6.rounds[page - 1].levelData.author,
         year: level6.rounds[page - 1].levelData.year,
+        pages: level6.roundsCount,
       };
+  }
+}
+
+export function setWordSource(level: number, page: number, line: number): IWordSource {
+  console.log("getting word sources");
+  switch (level) {
+    case 1:
+      return level1.rounds[page - 1].words[line - 1];
+
+    case 2:
+      return level2.rounds[page - 1].words[line - 1];
+    case 3:
+      return level3.rounds[page - 1].words[line - 1];
+    case 4:
+      return level4.rounds[page - 1].words[line - 1];
+    case 5:
+      return level5.rounds[page - 1].words[line - 1];
+    default:
+      return level6.rounds[page - 1].words[line - 1];
   }
 }
