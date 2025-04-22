@@ -1,7 +1,7 @@
 .game__modal {
   &_wrapper {
-    // display: none;
-    display: flex;
+    display: none;
+    //display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -31,7 +31,7 @@
   }
   &_window {
     width: 400px;
-    height: 400px;
+    min-height: 400px;
     background-color: #fff;
     border-radius: 5px;
     padding: 15px;
@@ -68,7 +68,6 @@
       display: inline-block;
       width: 16px;
       height: 16px;
-      background-color: #bd0000;
       color: white;
       font-size: 14px;
       font-weight: 500;

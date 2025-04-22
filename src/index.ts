@@ -1,5 +1,6 @@
 import "./style.scss";
 import { IImgSource } from "./types/types";
+import { IWordSource } from "./types/types";
 import { Position } from "./types/types";
 import { IStatistics } from "./types/types";
 
@@ -7,9 +8,12 @@ import setImgSource from "./components/services/setImgSource";
 import { setWordSource } from "./components/services/setImgSource";
 import remBoxShadow from "./components/services/remBoxShadow";
 import setToLS from "./components/services/setToLS";
+import fillModal from "./components/services/fillModal";
 
 import addPagesToSelect from "./components/services/addPagesToSelect";
 import shuffle from "./components/services/shuffle";
+
+let IS_I_KNOW_FLAG: boolean = true;
 
 let line: number = 1;
 let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
@@ -27,8 +31,8 @@ let author: string = imgSrc.author;
 let year: string = imgSrc.year;
 
 addPagesToSelect(imgSrc.pages);
-
-let word: string = setWordSource(level, page, line).textExample;
+let wordSrc: IWordSource = setWordSource(level, page, line);
+let word: string = wordSrc.textExample;
 
 const gameField = document.querySelector(".game__field") as HTMLDivElement;
 const answerField = document.querySelector(".answer__field") as HTMLDivElement;
@@ -40,6 +44,7 @@ const startPage = document.querySelector(".startPage") as HTMLDivElement;
 const submitBtn = document.querySelector("#submitLogin") as HTMLButtonElement;
 const loginPage = document.querySelector(".loginPage") as HTMLDivElement;
 const gamePage = document.querySelector(".gamePage") as HTMLDivElement;
+const modal = document.querySelector(".game__modal_wrapper") as HTMLDivElement;
 const greeting = document.querySelector(".gamePage__greeting") as HTMLDivElement;
 const levelSelect = document.querySelector(".gamePage__options_level-select") as HTMLSelectElement;
 const pageSelect = document.querySelector(".gamePage__options_page-select") as HTMLSelectElement;
@@ -76,14 +81,15 @@ pageSelect.addEventListener("change", (e) => {
 dontKnowBtn.addEventListener("click", () => {
   answerField.innerHTML = "";
   gameItems[line - 1].innerHTML = "";
+  IS_I_KNOW_FLAG = false;
   start(line, word, false);
 
   [...answerField.children].forEach((child) => {
     gameItems[line - 1].append(child);
   });
   checkBtn.click();
-  statistics.IDontKnow.push(word);
-  console.log(statistics);
+  statistics.IDontKnow.push({ word, src: wordSrc.audioExample });
+  IS_I_KNOW_FLAG = true;
 });
 
 if (localStorage.getItem("firstname") && localStorage.getItem("lastname")) {
@@ -120,12 +126,14 @@ submitBtn.addEventListener("click", (e: MouseEvent) => {
 nextBtn.addEventListener("click", () => {
   remBoxShadow();
   if (line < 10) {
-    statistics.IKnow.push(word);
     line += 1;
     word = setWordSource(level, page, line).textExample;
     start(line, word, true);
     nextBtn.style.display = "none";
+    console.log(statistics);
   } else {
+    modal.style.display = "flex";
+    fillModal(statistics, { name, author, year, src });
   }
 });
 
@@ -138,7 +146,6 @@ function start(line: number, word: string, isShuffle: boolean) {
   const str: string[] = word.split(" ");
   let size: number = 0;
   let width: number = 0;
-  console.log("line: ", line);
   const currentLine = document.querySelector(`[data-line="${line}"]`) as HTMLDivElement;
   currentLine!.style.opacity = "1";
   currentLine!.style.color = "red";
@@ -225,7 +232,9 @@ function check(line: number, word: string) {
   });
   const checkedArr = [...gameItems[line].children].map((item) => item.textContent);
   if (checkedArr.join(" ") === str.join(" ")) {
-    console.log("Word true");
+    if (IS_I_KNOW_FLAG) {
+      statistics.IKnow.push({ word, src });
+    }
     checkBtn.style.display = "none";
     nextBtn.style.display = "block";
   }

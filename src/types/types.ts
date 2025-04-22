@@ -22,6 +22,13 @@ export enum Position {
 }
 
 export interface IStatistics {
-  IDontKnow: string[];
-  IKnow: string[];
+  IDontKnow: IStatObject[];
+  IKnow: IStatObject[];
 }
+
+interface IStatObject {
+  word: string;
+  src: string;
+}
+
+export type TPaintData = Omit<IImgSource, "pages">;
