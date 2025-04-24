@@ -33,7 +33,7 @@ export default function fillModal(statistics: IStatistics, paintData: TPaintData
     iKnow_items.innerHTML += `
     <div class="game__modal_item">
         <img src="./assets/images/voice.svg.svg" alt="voice" />
-        <div class="game__modal_item-word">${statistics.IDontKnow[i].word}</div>
+        <div class="game__modal_item-word">${statistics.IKnow[i].word}</div>
     </div>`;
   }
 

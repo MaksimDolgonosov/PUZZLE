@@ -9,11 +9,10 @@ import { IImgSource } from "../../types/types";
 import { IWordSource } from "../../types/types";
 
 export default function setImgSource(level: number, page: number): IImgSource {
-  console.log("getting img sources");
   switch (level) {
     case 1:
       return {
-        src: `./assets/images/${level1.rounds[page - 1].levelData.imageSrc}`,
+        src: `./assets/images/${level1.rounds[page - 1].levelData.cutSrc}`,
         name: level1.rounds[page - 1].levelData.name,
         author: level1.rounds[page - 1].levelData.author,
         year: level1.rounds[page - 1].levelData.year,
@@ -21,7 +20,7 @@ export default function setImgSource(level: number, page: number): IImgSource {
       };
     case 2:
       return {
-        src: `./assets/images/${level2.rounds[page - 1].levelData.imageSrc}`,
+        src: `./assets/images/${level2.rounds[page - 1].levelData.cutSrc}`,
         name: level2.rounds[page - 1].levelData.name,
         author: level2.rounds[page - 1].levelData.author,
         year: level2.rounds[page - 1].levelData.year,
@@ -29,7 +28,7 @@ export default function setImgSource(level: number, page: number): IImgSource {
       };
     case 3:
       return {
-        src: `./assets/images/${level3.rounds[page - 1].levelData.imageSrc}`,
+        src: `./assets/images/${level3.rounds[page - 1].levelData.cutSrc}`,
         name: level3.rounds[page - 1].levelData.name,
         author: level3.rounds[page - 1].levelData.author,
         year: level3.rounds[page - 1].levelData.year,
@@ -37,7 +36,7 @@ export default function setImgSource(level: number, page: number): IImgSource {
       };
     case 4:
       return {
-        src: `./assets/images/${level4.rounds[page - 1].levelData.imageSrc}`,
+        src: `./assets/images/${level4.rounds[page - 1].levelData.cutSrc}`,
         name: level4.rounds[page - 1].levelData.name,
         author: level4.rounds[page - 1].levelData.author,
         year: level4.rounds[page - 1].levelData.year,
@@ -45,7 +44,7 @@ export default function setImgSource(level: number, page: number): IImgSource {
       };
     case 5:
       return {
-        src: `./assets/images/${level5.rounds[page - 1].levelData.imageSrc}`,
+        src: `./assets/images/${level5.rounds[page - 1].levelData.cutSrc}`,
         name: level5.rounds[page - 1].levelData.name,
         author: level5.rounds[page - 1].levelData.author,
         year: level5.rounds[page - 1].levelData.year,
@@ -53,7 +52,7 @@ export default function setImgSource(level: number, page: number): IImgSource {
       };
     default:
       return {
-        src: `./assets/images/${level6.rounds[page - 1].levelData.imageSrc}`,
+        src: `./assets/images/${level6.rounds[page - 1].levelData.cutSrc}`,
         name: level6.rounds[page - 1].levelData.name,
         author: level6.rounds[page - 1].levelData.author,
         year: level6.rounds[page - 1].levelData.year,
@@ -63,7 +62,6 @@ export default function setImgSource(level: number, page: number): IImgSource {
 }
 
 export function setWordSource(level: number, page: number, line: number): IWordSource {
-  console.log("getting word sources");
   switch (level) {
     case 1:
       return level1.rounds[page - 1].words[line - 1];

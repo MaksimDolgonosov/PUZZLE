@@ -23,14 +23,7 @@
           </div>
           <div class="gamePage__options_page">
             <span>Page</span>
-            <select class="gamePage__options_page-select">
-              <!-- <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option> -->
-            </select>
+            <select class="gamePage__options_page-select"></select>
           </div>
         </div>
         <div class="gamePage__options_hints"></div>
@@ -62,11 +55,13 @@
             <div class="game__items"></div>
           </div>
           <div class="answer__field"></div>
-          <!-- <div class="error__field">Please, insert all puzzles on the field!</div> -->
+          <div class="description__field"></div>
           <div class="buttons__field">
             <button class="buttons__field__dontKnow">I don't know</button>
             <button class="buttons__field__check">Check</button>
             <button class="buttons__field__next">Next</button>
+            <button class="buttons__field__continue" style="display: none">Continue</button>
+            <button class="buttons__field__statistics" style="display: none">Statistics</button>
           </div>
         </div>
       </div>
@@ -87,62 +82,20 @@
               I don`t know
               <div class="game__modal_dontKnow-count" style="background-color: rgb(156, 31, 0)">5</div>
             </div>
-            <div class="game__modal_items">
-              <!-- <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div> -->
-            </div>
+            <div class="game__modal_items"></div>
           </div>
           <div class="game__modal_iKnow">
             <div class="game__modal_iKnow-title">
               I know
               <div class="game__modal_iKnow-count" style="background-color: green">5</div>
             </div>
-            <div class="game__modal_items">
-              <!-- <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div>
-              <div class="game__modal_item">
-                <img src="./assets/images/voice.svg.svg" alt="voice" />
-                <div class="game__modal_item-word">The student go to school every day</div>
-              </div> -->
-            </div>
+            <div class="game__modal_items"></div>
           </div>
         </div>
-        <button class="game__modal_continue">Continue</button>
+        <button class="game__modal_continue buttons__field__continue">Continue</button>
       </div>
     </div>
-    <div class="startPage" style="display: flex">
+    <div class="startPage">
       <div class="startPage__wrapper">
         <h1>English puzzle</h1>
         <h3>Click on words, collect phrases</h3>
