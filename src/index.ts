@@ -54,6 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const continueBtn = document.querySelectorAll(".buttons__field__continue") as NodeListOf<HTMLButtonElement>;
   const statisticsBtn = document.querySelector(".buttons__field__statistics") as HTMLButtonElement;
   const descriptionField = document.querySelector(".description__field") as HTMLDivElement;
+  const audio = document.querySelector("#audio") as HTMLAudioElement;
+  const soundHint = document.querySelector(".gamePage__options_hints-sound") as HTMLImageElement;
+
+  soundHint.addEventListener("click", () => {
+    audio.src = `./assets/${wordSrc.audioExample}`;
+    audio.play();
+  });
 
   levelSelect.value = `${level}`;
   pageSelect.value = `${page}`;
@@ -191,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function start(line: number, word: string, isShuffle: boolean) {
+    wordSrc = setWordSource(level, page, line);
     const answerField = document.querySelector(".answer__field") as HTMLDivElement;
     const str: string[] = word.split(" ");
     let size: number = 0;
