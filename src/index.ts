@@ -26,11 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     IDontKnow: [],
     IKnow: [],
   };
-  // let bcgImg: string = "null";
-  // let name: string = imgSrc.name;
-  // let src: string = imgSrc.src;
-  // let author: string = imgSrc.author;
-  // let year: string = imgSrc.year;
 
   addPagesToSelect(imgSrc.pages);
   let wordSrc: IWordSource = setWordSource(level, page, line);
@@ -56,10 +51,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const descriptionField = document.querySelector(".description__field") as HTMLDivElement;
   const audio = document.querySelector("#audio") as HTMLAudioElement;
   const soundHint = document.querySelector(".gamePage__options_hints-sound") as HTMLImageElement;
+  const backgroundHint = document.querySelector(".gamePage__options_hints-background") as HTMLImageElement;
 
-  soundHint.addEventListener("click", () => {
-    audio.src = `./assets/${wordSrc.audioExample}`;
-    audio.play();
+  soundHint.addEventListener("click", (e) => {
+    const circle = e.target as HTMLImageElement;
+    console.log(circle.parentElement);
+    // if (soundHint.classList.contains("active")) {
+    //   soundHint.classList.remove("active");
+    //   soundHint.querySelector("circle")!.style.fill = "grey";
+    // } else {
+    //   soundHint.classList.add("active");
+    //   soundHint.querySelector("circle")!.style.fill = "#2CAB61";
+    // }
+    // audio.src = `./assets/${wordSrc.audioExample}`;
+    // let duration: number;
+    // audio.onloadedmetadata = function () {
+    //   duration = audio.duration;
+    // };
+    // audio.play();
+  });
+  backgroundHint.addEventListener("click", () => {
+    if (soundHint.classList.contains("active")) {
+      soundHint.classList.remove("active");
+      soundHint.querySelector("circle")!.style.fill = "grey";
+    } else {
+      soundHint.classList.add("active");
+      soundHint.querySelector("circle")!.style.fill = "#2CAB61";
+    }
   });
 
   levelSelect.value = `${level}`;

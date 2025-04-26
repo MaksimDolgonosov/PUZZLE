@@ -38,7 +38,10 @@
       }
     }
     &_hints {
-      img {
+      display: flex;
+      svg {
+        display: block;
+        margin-left: 5px;
         width: 30px;
         height: 30px;
         cursor: pointer;
@@ -235,5 +238,14 @@
     animation-timing-function: ease-out;
     color: rgb(108, 0, 158);
     transform: translateY(0);
+  }
+}
+
+@keyframes audio {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }
