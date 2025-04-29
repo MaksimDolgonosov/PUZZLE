@@ -49,6 +49,23 @@
     }
   }
 }
+.hints__container {
+  margin: 0 auto;
+  width: 768px;
+  height: 45px;
+  img {
+    display: block;
+    width: 30px;
+    height: 20px;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  &_translation {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 14px;
+  }
+}
 
 .container {
   margin: 0 auto;

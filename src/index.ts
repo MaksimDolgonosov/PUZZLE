@@ -10,7 +10,7 @@ import remBoxShadow from "./components/services/remBoxShadow";
 import setToLS from "./components/services/setToLS";
 import fillModal from "./components/services/fillModal";
 import clearItems from "./components/services/clearItems";
-
+import toggleActive from "./components/services/toggleActive";
 import addPagesToSelect from "./components/services/addPagesToSelect";
 import shuffle from "./components/services/shuffle";
 
@@ -52,31 +52,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const audio = document.querySelector("#audio") as HTMLAudioElement;
   const soundHint = document.querySelector(".gamePage__options_hints-sound") as HTMLImageElement;
   const backgroundHint = document.querySelector(".gamePage__options_hints-background") as HTMLImageElement;
+  const translateHint = document.querySelector(".gamePage__options_hints-translate") as HTMLImageElement;
+  const sound = document.querySelector(".hints__container_sound") as HTMLImageElement;
+  const translation = document.querySelector(".hints__container_translation") as HTMLDivElement;
 
-  soundHint.addEventListener("click", (e) => {
-    const circle = e.target as HTMLImageElement;
-    console.log(circle.parentElement);
-    // if (soundHint.classList.contains("active")) {
-    //   soundHint.classList.remove("active");
-    //   soundHint.querySelector("circle")!.style.fill = "grey";
-    // } else {
-    //   soundHint.classList.add("active");
-    //   soundHint.querySelector("circle")!.style.fill = "#2CAB61";
-    // }
-    // audio.src = `./assets/${wordSrc.audioExample}`;
-    // let duration: number;
-    // audio.onloadedmetadata = function () {
-    //   duration = audio.duration;
-    // };
-    // audio.play();
+  translation.textContent = wordSrc.textExampleTranslate;
+  sound.addEventListener("click", () => {
+    audio.src = `./assets/${wordSrc.audioExample}`;
+    let duration: number;
+    audio.onloadedmetadata = function () {
+      duration = audio.duration;
+      sound.src = "./assets/icons/hints/audio-wave2.gif";
+      sound.style.width = "50px";
+
+      setTimeout(() => {
+        sound.src = "./assets/icons/hints/volume.svg";
+        sound.style.width = "30px";
+      }, audio.duration * 1000);
+    };
+
+    audio.play();
   });
-  backgroundHint.addEventListener("click", () => {
+
+  soundHint.addEventListener("click", () => {
+    // toggleActive("gamePage__options_hints-sound");
     if (soundHint.classList.contains("active")) {
       soundHint.classList.remove("active");
       soundHint.querySelector("circle")!.style.fill = "grey";
+      sound.style.display = "none";
     } else {
+      sound.style.display = "block";
       soundHint.classList.add("active");
       soundHint.querySelector("circle")!.style.fill = "#2CAB61";
+    }
+  });
+  backgroundHint.addEventListener("click", () => {
+    toggleActive("gamePage__options_hints-background");
+  });
+
+  translateHint.addEventListener("click", () => {
+    if (translateHint.classList.contains("active")) {
+      translateHint.classList.remove("active");
+      translateHint.querySelector("circle")!.style.fill = "grey";
+      translation.style.display = "none";
+    } else {
+      translation.style.display = "block";
+      translateHint.classList.add("active");
+      translateHint.querySelector("circle")!.style.fill = "#2CAB61";
+      translation.textContent = wordSrc.textExampleTranslate;
     }
   });
 
@@ -217,6 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function start(line: number, word: string, isShuffle: boolean) {
     wordSrc = setWordSource(level, page, line);
+    translation.textContent = wordSrc.textExampleTranslate;
     const answerField = document.querySelector(".answer__field") as HTMLDivElement;
     const str: string[] = word.split(" ");
     let size: number = 0;
