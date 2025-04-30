@@ -87,7 +87,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   backgroundHint.addEventListener("click", () => {
-    toggleActive("gamePage__options_hints-background");
+    // toggleActive("gamePage__options_hints-background");
+    if (backgroundHint.classList.contains("active")) {
+      backgroundHint.classList.remove("active");
+      backgroundHint.querySelector("circle")!.style.fill = "grey";
+      const answerItems = answerField.children as HTMLCollection;
+      console.log(typeof answerItems);
+      // answerItems.forEach((item: HTMLDivElement) => {
+      //   item.style.backgroundImage = "none";
+      // });
+      //sound.style.display = "none";
+    } else {
+      sound.style.display = "block";
+      backgroundHint.classList.add("active");
+      backgroundHint.querySelector("circle")!.style.fill = "#2CAB61";
+    }
   });
 
   translateHint.addEventListener("click", () => {
@@ -108,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   levelSelect.addEventListener("change", (e) => {
     const selectNum = e.target as HTMLSelectElement;
+
     level = +selectNum.value;
     page = 1;
     line = 1;
