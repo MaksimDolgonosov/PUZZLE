@@ -16,6 +16,7 @@ import shuffle from "./components/services/shuffle";
 
 document.addEventListener("DOMContentLoaded", () => {
   let IS_I_KNOW_FLAG: boolean = true;
+  let IS_BACKGROUND_HINT_FLAG: boolean = true;
 
   let line: number = 1;
   let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
@@ -88,19 +89,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   backgroundHint.addEventListener("click", () => {
     // toggleActive("gamePage__options_hints-background");
+    const itemsOnAnswerField = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+    const itemsOnGameField = gameItems[line - 1].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
     if (backgroundHint.classList.contains("active")) {
       backgroundHint.classList.remove("active");
       backgroundHint.querySelector("circle")!.style.fill = "grey";
-      const answerItems = answerField.children as HTMLCollection;
-      console.log(typeof answerItems);
-      // answerItems.forEach((item: HTMLDivElement) => {
-      //   item.style.backgroundImage = "none";
-      // });
-      //sound.style.display = "none";
+      itemsOnAnswerField.forEach((item: HTMLDivElement) => {
+        item.style.backgroundImage = "none";
+      });
+      itemsOnGameField.forEach((item: HTMLDivElement) => {
+        item.style.backgroundImage = "none";
+      });
+      IS_BACKGROUND_HINT_FLAG = false;
     } else {
-      sound.style.display = "block";
       backgroundHint.classList.add("active");
       backgroundHint.querySelector("circle")!.style.fill = "#2CAB61";
+      itemsOnAnswerField.forEach((item: HTMLDivElement) => {
+        item.style.backgroundImage = `url('${imgSrc.src}')`;
+      });
+      itemsOnGameField.forEach((item: HTMLDivElement) => {
+        item.style.backgroundImage = `url('${imgSrc.src}')`;
+      });
+      IS_BACKGROUND_HINT_FLAG = true;
     }
   });
 
@@ -268,9 +278,12 @@ document.addEventListener("DOMContentLoaded", () => {
       previousLine!.style.color = "black";
     }
     const answer: string[] = str.map((item, i) => {
-      return `<div class="game__item" style="background-image: url('${imgSrc.src}');">${item}</div>`;
+      if (IS_BACKGROUND_HINT_FLAG) {
+        return `<div class="game__item" style="background-image: url('${imgSrc.src}');">${item}</div>`;
+      }
+      return `<div class="game__item" style="background-image: none');">${item}</div>`;
     });
-    //background-size: ${ 100 * str.length}% 1000%
+
     answerField!.style.opacity = "0";
     answer.forEach((item) => {
       answerField!.innerHTML += item;
@@ -291,6 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const itemsWithPaddings = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
     answerField.innerHTML = "";
+
     const startPosition = isShuffle === true ? shuffle([...itemsWithPaddings]) : [...itemsWithPaddings];
     answerField!.style.opacity = "1";
     startPosition.forEach((item) => {
@@ -335,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function check(line: number, word: string) {
     const str: string[] = word.split(" ");
-    const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
+    //const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
 
     Array.from(gameItems[line].children).forEach((element, i) => {
       if (element.textContent === str[i]) {
@@ -349,6 +363,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (IS_I_KNOW_FLAG) {
         statistics.IKnow.push({ word, src: imgSrc.src });
       }
+      (gameItems[line].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>).forEach(
+        (item: HTMLDivElement) => {
+          item.style.backgroundImage = `url('${imgSrc.src}')`;
+        }
+      );
+      // const itemsOnGameField = gameItems[line - 1].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+      // itemsOnGameField.forEach((item: HTMLDivElement) => {
+      //   item.style.backgroundImage = `url('${imgSrc.src}')`;
+      // });
       checkBtn.style.display = "none";
       nextBtn.style.display = "block";
     }
