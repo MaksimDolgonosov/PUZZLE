@@ -16,7 +16,9 @@ import shuffle from "./components/services/shuffle";
 
 document.addEventListener("DOMContentLoaded", () => {
   let IS_I_KNOW_FLAG: boolean = true;
-  let IS_BACKGROUND_HINT_FLAG: boolean = true;
+  let BACKGROUND_HINT: boolean = true;
+  let SOUND_HINT: boolean = true;
+  let TRANSLATE_HINT: boolean = true;
 
   let line: number = 1;
   let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
@@ -76,15 +78,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   soundHint.addEventListener("click", () => {
-    // toggleActive("gamePage__options_hints-sound");
     if (soundHint.classList.contains("active")) {
       soundHint.classList.remove("active");
       soundHint.querySelector("circle")!.style.fill = "grey";
       sound.style.display = "none";
+      SOUND_HINT = false;
+      localStorage.setItem("sound-hint", "false");
     } else {
       sound.style.display = "block";
       soundHint.classList.add("active");
       soundHint.querySelector("circle")!.style.fill = "#2CAB61";
+      SOUND_HINT = true;
+      localStorage.setItem("sound-hint", "true");
     }
   });
   backgroundHint.addEventListener("click", () => {
@@ -100,7 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
       itemsOnGameField.forEach((item: HTMLDivElement) => {
         item.style.backgroundImage = "none";
       });
-      IS_BACKGROUND_HINT_FLAG = false;
+      BACKGROUND_HINT = false;
+      localStorage.setItem("background-hint", "false");
     } else {
       backgroundHint.classList.add("active");
       backgroundHint.querySelector("circle")!.style.fill = "#2CAB61";
@@ -110,7 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
       itemsOnGameField.forEach((item: HTMLDivElement) => {
         item.style.backgroundImage = `url('${imgSrc.src}')`;
       });
-      IS_BACKGROUND_HINT_FLAG = true;
+      BACKGROUND_HINT = true;
+      localStorage.setItem("background-hint", "true");
     }
   });
 
@@ -119,11 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
       translateHint.classList.remove("active");
       translateHint.querySelector("circle")!.style.fill = "grey";
       translation.style.display = "none";
+      TRANSLATE_HINT = false;
+      localStorage.setItem("translate-hint", "false");
     } else {
       translation.style.display = "block";
       translateHint.classList.add("active");
       translateHint.querySelector("circle")!.style.fill = "#2CAB61";
       translation.textContent = wordSrc.textExampleTranslate;
+      TRANSLATE_HINT = true;
+      localStorage.setItem("translate-hint", "true");
     }
   });
 
@@ -165,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameItems[line - 1].append(child);
     });
     checkBtn.click();
+    // line += 1;
     statistics.IDontKnow.push({ word, src: wordSrc.audioExample });
     IS_I_KNOW_FLAG = true;
   });
@@ -203,6 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
   nextBtn.addEventListener("click", () => {
     remBoxShadow();
     if (line < 10) {
+      // gameItems[line - 1].removeEventListener("click", gameFieldListener);
+
       line += 1;
       word = setWordSource(level, page, line).textExample;
       start(line, word, true);
@@ -233,6 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         page += 1;
       }
+      // gameItems.forEach((item) => {
+      //   item.removeEventListener("click", gameFieldListener);
+      // });
       line = 1;
       levelSelect.value = `${level}`;
       pageSelect.value = `${page}`;
@@ -250,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
         IDontKnow: [],
         IKnow: [],
       };
+
       start(line, word, true);
     });
   });
@@ -267,6 +285,9 @@ document.addEventListener("DOMContentLoaded", () => {
     wordSrc = setWordSource(level, page, line);
     translation.textContent = wordSrc.textExampleTranslate;
     const answerField = document.querySelector(".answer__field") as HTMLDivElement;
+    gameItems.forEach((item) => {
+      item.removeEventListener("click", gameFieldListener);
+    });
     const str: string[] = word.split(" ");
     let size: number = 0;
     let width: number = 0;
@@ -278,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
       previousLine!.style.color = "black";
     }
     const answer: string[] = str.map((item, i) => {
-      if (IS_BACKGROUND_HINT_FLAG) {
+      if (BACKGROUND_HINT) {
         return `<div class="game__item" style="background-image: url('${imgSrc.src}');">${item}</div>`;
       }
       return `<div class="game__item" style="background-image: none');">${item}</div>`;
@@ -310,33 +331,19 @@ document.addEventListener("DOMContentLoaded", () => {
     startPosition.forEach((item) => {
       answerField.append(item);
     });
-
-    answerField.addEventListener("click", (e: MouseEvent) => {
-      const target = e.target as HTMLDivElement;
-      const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
-      if (target.classList.contains("game__item")) {
-        putOnGameField(e, line);
-      }
-
-      if (gameItems[line - 1].children.length === str.length) {
-        checkBtn.style.display = "block";
-      }
-    });
-    gameItems[line - 1].addEventListener("click", (e: MouseEvent) => {
-      const target = e.target as HTMLDivElement;
-      const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
-      if (target.classList.contains("game__item")) {
-        for (let i = 0; i < gameItems[line - 1].children.length; i++) {
-          (gameItems[line - 1].children[i] as HTMLDivElement).style.boxShadow = Position.RESET;
-        }
-
-        putOnAnswerField(e);
-      }
-      if (gameItems[line - 1].children.length !== str.length) {
-        checkBtn.style.display = "none";
-      }
-    });
+    gameItems[line - 1].addEventListener("click", gameFieldListener);
   }
+
+  answerField.addEventListener("click", (e: MouseEvent) => {
+    const target = e.target as HTMLDivElement;
+    let str = word.split(" ");
+    if (target.classList.contains("game__item")) {
+      putOnGameField(e, line);
+    }
+    if (gameItems[line - 1].children.length === str.length) {
+      checkBtn.style.display = "block";
+    }
+  });
 
   function putOnGameField(e: MouseEvent, line: number) {
     const element = e.target as HTMLDivElement;
@@ -345,6 +352,21 @@ document.addEventListener("DOMContentLoaded", () => {
   function putOnAnswerField(e: MouseEvent) {
     const element = e.target as HTMLDivElement;
     answerField.append(element);
+  }
+  function gameFieldListener(e: MouseEvent) {
+    const target = e.target as HTMLDivElement;
+    //const gameItems = document.querySelectorAll(".game__items") as NodeListOf<HTMLDivElement>;
+    let str = word.split(" ");
+    if (target.classList.contains("game__item")) {
+      for (let i = 0; i < gameItems[line - 1].children.length; i++) {
+        (gameItems[line - 1].children[i] as HTMLDivElement).style.boxShadow = Position.RESET;
+      }
+
+      putOnAnswerField(e);
+    }
+    if (gameItems[line - 1].children.length !== str.length) {
+      checkBtn.style.display = "none";
+    }
   }
 
   function check(line: number, word: string) {
