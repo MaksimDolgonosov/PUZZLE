@@ -13,13 +13,20 @@ import clearItems from "./components/services/clearItems";
 import toggleActive from "./components/services/toggleActive";
 import addPagesToSelect from "./components/services/addPagesToSelect";
 import shuffle from "./components/services/shuffle";
+import convertStrInBool from "./components/services/convertStrInBool";
+import validation from "./components/services/validations";
 
 document.addEventListener("DOMContentLoaded", () => {
   let IS_I_KNOW_FLAG: boolean = true;
-  let BACKGROUND_HINT: boolean = true;
-  let SOUND_HINT: boolean = true;
-  let TRANSLATE_HINT: boolean = true;
-
+  let BACKGROUND_HINT: boolean = localStorage.getItem("background-hint")
+    ? convertStrInBool(localStorage.getItem("background-hint")!)
+    : true;
+  let SOUND_HINT: boolean = localStorage.getItem("sound-hint")
+    ? convertStrInBool(localStorage.getItem("sound-hint")!)
+    : true;
+  let TRANSLATE_HINT: boolean = localStorage.getItem("translate-hint")
+    ? convertStrInBool(localStorage.getItem("translate-hint")!)
+    : true;
   let line: number = 1;
   let level: number = localStorage.getItem("level") ? Number(localStorage.getItem("level")) : 1;
   let page: number = localStorage.getItem("page") ? Number(localStorage.getItem("page")) : 1;
@@ -58,6 +65,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const translateHint = document.querySelector(".gamePage__options_hints-translate") as HTMLImageElement;
   const sound = document.querySelector(".hints__container_sound") as HTMLImageElement;
   const translation = document.querySelector(".hints__container_translation") as HTMLDivElement;
+  const logOutBtn = document.querySelector("#logOut") as HTMLButtonElement;
+  const firstnameInput = document.querySelector("#firstname") as HTMLInputElement;
+  const lastnameInput = document.querySelector("#lastname") as HTMLInputElement;
+  const errorFirstname = document.querySelector(".loginPage__errorMsg_firstname") as HTMLDivElement;
+  const errorLastname = document.querySelector(".loginPage__errorMsg_lastname") as HTMLDivElement;
+
+  logOutBtn.addEventListener("click", () => {
+    localStorage.removeItem("firstname");
+    localStorage.removeItem("lastname");
+    localStorage.removeItem("sound-hint");
+    localStorage.removeItem("translate-hint");
+    localStorage.removeItem("background-hint");
+    localStorage.removeItem("page");
+    localStorage.removeItem("level");
+    gamePage.style.display = "none";
+    startPage.style.display = " flex";
+  });
 
   translation.textContent = wordSrc.textExampleTranslate;
   sound.addEventListener("click", () => {
@@ -76,6 +100,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audio.play();
   });
+
+  if (SOUND_HINT) {
+    sound.style.display = "block";
+    soundHint.classList.add("active");
+    soundHint.querySelector("circle")!.style.fill = "#2CAB61";
+  } else {
+    soundHint.classList.remove("active");
+    soundHint.querySelector("circle")!.style.fill = "grey";
+    sound.style.display = "none";
+  }
+
+  if (BACKGROUND_HINT === true) {
+    const itemsOnAnswerField = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+    const itemsOnGameField = gameItems[line - 1].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+    backgroundHint.classList.add("active");
+    backgroundHint.querySelector("circle")!.style.fill = "#2CAB61";
+    itemsOnAnswerField.forEach((item: HTMLDivElement) => {
+      item.style.backgroundImage = `url('${imgSrc.src}')`;
+    });
+    itemsOnGameField.forEach((item: HTMLDivElement) => {
+      item.style.backgroundImage = `url('${imgSrc.src}')`;
+    });
+  } else {
+    const itemsOnAnswerField = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+    const itemsOnGameField = gameItems[line - 1].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+    backgroundHint.classList.remove("active");
+    backgroundHint.querySelector("circle")!.style.fill = "grey";
+    itemsOnAnswerField.forEach((item: HTMLDivElement) => {
+      item.style.backgroundImage = "none";
+    });
+    itemsOnGameField.forEach((item: HTMLDivElement) => {
+      item.style.backgroundImage = "none";
+    });
+  }
+
+  if (TRANSLATE_HINT) {
+    translation.style.display = "block";
+    translateHint.classList.add("active");
+    translateHint.querySelector("circle")!.style.fill = "#2CAB61";
+    translation.textContent = wordSrc.textExampleTranslate;
+  } else {
+    translateHint.classList.remove("active");
+    translateHint.querySelector("circle")!.style.fill = "grey";
+    translation.style.display = "none";
+  }
 
   soundHint.addEventListener("click", () => {
     if (soundHint.classList.contains("active")) {
@@ -195,6 +264,28 @@ document.addEventListener("DOMContentLoaded", () => {
     loginPage.style.display = "flex";
   });
 
+  firstnameInput.addEventListener("input", (e: Event) => {
+    let input = e.target as HTMLInputElement;
+    console.log(input.value.match(/^[A-Z]/));
+    if (input.value.match(/^[A-Z]/)) {
+      errorFirstname.textContent = ``;
+      input.style.border = "none";
+    } else {
+      errorFirstname.textContent = `The  letter in uppercase!`;
+      input.style.border = "2px solid red";
+    }
+
+    // if (input.value.matchAll(/[A-Za-z]/g)) {
+    //   console.log(input.value.matchAll(/[A-Za-z]/g));
+    //   // input.value = input.value.match(/[A-Za-z]/g)!.join("");
+    //   input.style.border = "none";
+    // } else {
+    //   input.style.border = "2px solid red";
+    // }
+    //input.value = input.value.replace(/[А-Яа-я]/, "");
+    // console.log(input.value=1);
+  });
+
   submitBtn.addEventListener("click", (e: MouseEvent) => {
     e.preventDefault();
     const firstname = document.querySelector("#firstname") as HTMLInputElement;
@@ -203,6 +294,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (firstname.value && lastname.value) {
       localStorage.setItem("firstname", firstname.value);
       localStorage.setItem("lastname", lastname.value);
+      firstname.value = "";
+      lastname.value = "";
       loginPage.style.display = "none";
       gamePage.style.display = "flex";
       greeting.textContent = `Welcome, ${localStorage.getItem("firstname")} ${localStorage.getItem("lastname")}!`;

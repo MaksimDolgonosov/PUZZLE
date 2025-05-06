@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="96x96" href="./assets/icons/favicon/favicon-96x96.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon/favicon-16x16.png" />
-    <link rel="manifest" href="./assets/icons/favicon/manifest.json" />
+    <!-- <link rel="manifest" href="./assets/icons/favicon/manifest.json" /> -->
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
@@ -25,6 +25,7 @@
   <body>
     <div class="gamePage">
       <div class="gamePage__greeting"></div>
+      <button id="logOut">Log out</button>
       <div class="gamePage__options">
         <div class="gamePage__options_complexity">
           <div class="gamePage__options_level">
@@ -44,7 +45,7 @@
           </div>
         </div>
         <div class="gamePage__options_hints">
-          <svg class="gamePage__options_hints-sound active" viewBox="0 0 128 128">
+          <svg class="gamePage__options_hints-sound" viewBox="0 0 128 128">
             <g><circle cx="64" cy="64" r="64" style="fill: #2cab61" /></g>
             <path
               class="st1"
@@ -80,7 +81,7 @@
           </svg>
 
           <svg
-            class="gamePage__options_hints-translate active"
+            class="gamePage__options_hints-translate"
             width="48"
             height="48"
             viewBox="0 0 12.7 12.7"
@@ -94,7 +95,6 @@
                 <path
                   style="
                     opacity: 1;
-                    vector-effect: none;
                     fill: #666666;
                     fill-opacity: 1;
                     stroke: none;
@@ -285,7 +285,7 @@
           </svg>
 
           <svg
-            class="gamePage__options_hints-background active"
+            class="gamePage__options_hints-background"
             style="enable-background: new 0 0 512 512"
             viewBox="0 0 512 512"
           >
@@ -393,7 +393,9 @@
         <h2>Insert your firstname and lastname</h2>
         <form action="">
           <input type="text" id="firstname" placeholder="Your firstname" name="firstname" required value="" />
+          <div class="loginPage__errorMsg_firstname"></div>
           <input type="text" id="lastname" placeholder="Your lastname" name="lastname" required value="" />
+          <div class="loginPage__errorMsg_lastname">sdfsdfds</div>
           <div class="loginPage__errorMsg">Please fill in all fields</div>
           <button type="submit" id="submitLogin">Submit</button>
         </form>
