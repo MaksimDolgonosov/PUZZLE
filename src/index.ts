@@ -266,12 +266,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   firstnameInput.addEventListener("input", (e: Event) => {
     let input = e.target as HTMLInputElement;
-    console.log(input.value.match(/^[A-Z]/));
-    if (input.value.match(/^[A-Z]/)) {
+    console.log(input.value);
+
+    if (input.value.match(/^[A-Z]/) || input.value === "") {
       errorFirstname.textContent = ``;
       input.style.border = "none";
     } else {
-      errorFirstname.textContent = `The  letter in uppercase!`;
+      errorFirstname.textContent = `The first letter must be in English uppercase!`;
+      input.style.border = "2px solid red";
+    }
+    if (input.value.match(/.[A-Za-z]-$/) || input.value === "") {
+      errorFirstname.textContent = ``;
+      input.style.border = "none";
+    } else {
+      errorFirstname.textContent = `Must be only English letters!`;
       input.style.border = "2px solid red";
     }
 
