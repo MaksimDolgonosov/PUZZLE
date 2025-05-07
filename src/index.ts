@@ -266,7 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   firstnameInput.addEventListener("input", (e: Event) => {
     let input = e.target as HTMLInputElement;
-    console.log(input.value);
 
     if (input.value.match(/^[A-Z]/) || input.value === "") {
       errorFirstname.textContent = ``;
@@ -274,15 +273,26 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       errorFirstname.textContent = `The first letter must be in English uppercase!`;
       input.style.border = "2px solid red";
+      return;
     }
-    if (input.value.match(/.[A-Za-z]-$/) || input.value === "") {
+
+    //console.log(input.value.match(/^[A-Z][A-Za-z]*$/g));
+    if (input.value.match(/^[A-Z][A-Za-z]*$/g) || input.value === "") {
       errorFirstname.textContent = ``;
       input.style.border = "none";
     } else {
-      errorFirstname.textContent = `Must be only English letters!`;
+      errorFirstname.textContent = `Must be only English letters or hyphen ('-') symbol!`;
       input.style.border = "2px solid red";
+      return;
     }
-
+    if (input.value.length >= 3) {
+      errorFirstname.textContent = ``;
+      input.style.border = "none";
+    } else {
+      errorFirstname.textContent = `Must be minimum 3 letters`;
+      input.style.border = "2px solid red";
+      return;
+    }
     // if (input.value.matchAll(/[A-Za-z]/g)) {
     //   console.log(input.value.matchAll(/[A-Za-z]/g));
     //   // input.value = input.value.match(/[A-Za-z]/g)!.join("");
