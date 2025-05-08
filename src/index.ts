@@ -264,45 +264,40 @@ document.addEventListener("DOMContentLoaded", () => {
     loginPage.style.display = "flex";
   });
 
-  firstnameInput.addEventListener("input", (e: Event) => {
-    let input = e.target as HTMLInputElement;
+  // firstnameInput.addEventListener("input", (e: Event) => {
+  //   let input = e.target as HTMLInputElement;
 
-    if (input.value.match(/^[A-Z]/) || input.value === "") {
-      errorFirstname.textContent = ``;
-      input.style.border = "none";
-    } else {
-      errorFirstname.textContent = `The first letter must be in English uppercase!`;
-      input.style.border = "2px solid red";
-      return;
-    }
+  //   if (input.value.match(/^[A-Z]/) || input.value === "") {
+  //     errorFirstname.textContent = ``;
+  //     input.style.border = "none";
+  //   } else {
+  //     errorFirstname.textContent = `The first letter must be in English uppercase!`;
+  //     input.style.border = "2px solid red";
+  //     return;
+  //   }
 
-    //console.log(input.value.match(/^[A-Z][A-Za-z]*$/g));
-    if (input.value.match(/^[A-Z][A-Za-z]*$/g) || input.value === "") {
-      errorFirstname.textContent = ``;
-      input.style.border = "none";
-    } else {
-      errorFirstname.textContent = `Must be only English letters or hyphen ('-') symbol!`;
-      input.style.border = "2px solid red";
-      return;
-    }
-    if (input.value.length >= 3) {
-      errorFirstname.textContent = ``;
-      input.style.border = "none";
-    } else {
-      errorFirstname.textContent = `Must be minimum 3 letters`;
-      input.style.border = "2px solid red";
-      return;
-    }
-    // if (input.value.matchAll(/[A-Za-z]/g)) {
-    //   console.log(input.value.matchAll(/[A-Za-z]/g));
-    //   // input.value = input.value.match(/[A-Za-z]/g)!.join("");
-    //   input.style.border = "none";
-    // } else {
-    //   input.style.border = "2px solid red";
-    // }
-    //input.value = input.value.replace(/[А-Яа-я]/, "");
-    // console.log(input.value=1);
-  });
+  //   //console.log(input.value.match(/^[A-Z][A-Za-z]*$/g));
+  //   if (input.value.match(/^[A-Z][A-Za-z]*$/g) || input.value === "") {
+  //     errorFirstname.textContent = ``;
+  //     input.style.border = "none";
+  //   } else {
+  //     errorFirstname.textContent = `Must be only English letters or hyphen ('-') symbol!`;
+  //     input.style.border = "2px solid red";
+  //     return;
+  //   }
+  //   if (input.value.length >= 3 || input.value === "") {
+  //     errorFirstname.textContent = ``;
+  //     input.style.border = "none";
+  //   } else {
+  //     errorFirstname.textContent = `Must be minimum 3 letters`;
+  //     input.style.border = "2px solid red";
+  //     return;
+  //   }
+
+  // });
+
+  firstnameInput.addEventListener("input", (e) => validation(e, 3, "firstname"));
+  lastnameInput.addEventListener("input", (e) => validation(e, 4, "lastname"));
 
   submitBtn.addEventListener("click", (e: MouseEvent) => {
     e.preventDefault();
