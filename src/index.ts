@@ -15,6 +15,7 @@ import addPagesToSelect from "./components/services/addPagesToSelect";
 import shuffle from "./components/services/shuffle";
 import convertStrInBool from "./components/services/convertStrInBool";
 import validation from "./components/services/validations";
+import { allowDrop } from "./components/services/dragAndDrope";
 
 document.addEventListener("DOMContentLoaded", () => {
   let IS_I_KNOW_FLAG: boolean = true;
@@ -70,6 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const lastnameInput = document.querySelector("#lastname") as HTMLInputElement;
   const errorFirstname = document.querySelector(".loginPage__errorMsg_firstname") as HTMLDivElement;
   const errorLastname = document.querySelector(".loginPage__errorMsg_lastname") as HTMLDivElement;
+
+  gameItems.forEach((item) => {
+    item.addEventListener("dragover", allowDrop);
+  });
 
   logOutBtn.addEventListener("click", () => {
     localStorage.removeItem("firstname");
@@ -406,9 +411,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const answer: string[] = str.map((item, i) => {
       if (BACKGROUND_HINT) {
-        return `<div class="game__item" style="background-image: url('${imgSrc.src}');">${item}</div>`;
+        return `<div class="game__item" style="background-image: url('${imgSrc.src}');" draggable="true">${item}</div>`;
       }
-      return `<div class="game__item" style="background-image: none');">${item}</div>`;
+      return `<div class="game__item" style="background-image: none');" draggable="true">${item}</div>`;
     });
 
     answerField!.style.opacity = "0";
@@ -438,6 +443,11 @@ document.addEventListener("DOMContentLoaded", () => {
       answerField.append(item);
     });
     gameItems[line - 1].addEventListener("click", gameFieldListener);
+
+    gameItems[line - 1].addEventListener("drop", (e) => {
+      e.preventDefault();
+      console.log(e.target);
+    });
   }
 
   answerField.addEventListener("click", (e: MouseEvent) => {
@@ -450,6 +460,14 @@ document.addEventListener("DOMContentLoaded", () => {
       checkBtn.style.display = "block";
     }
   });
+
+  // gameItems[line - 1].addEventListener("drop", (e) => {
+  //   e.preventDefault();
+  //   console.log(this);
+  // });
+  // gameItems[line - 1].addEventListener("dragover", (e) => {
+  //   e.preventDefault();
+  // });
 
   function putOnGameField(e: MouseEvent, line: number) {
     const element = e.target as HTMLDivElement;
