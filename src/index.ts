@@ -16,6 +16,9 @@ import shuffle from "./components/services/shuffle";
 import convertStrInBool from "./components/services/convertStrInBool";
 import validation from "./components/services/validations";
 import { allowDrop } from "./components/services/dragAndDrope";
+import { dragEnter } from "./components/services/dragAndDrope";
+import { dragLeave } from "./components/services/dragAndDrope";
+import { dragStart } from "./components/services/dragAndDrope";
 
 document.addEventListener("DOMContentLoaded", () => {
   let IS_I_KNOW_FLAG: boolean = true;
@@ -75,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   gameItems.forEach((item) => {
     item.addEventListener("dragover", allowDrop);
   });
+  answerField.addEventListener("dragover", allowDrop);
 
   logOutBtn.addEventListener("click", () => {
     localStorage.removeItem("firstname");
@@ -398,6 +402,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const answerField = document.querySelector(".answer__field") as HTMLDivElement;
     gameItems.forEach((item) => {
       item.removeEventListener("click", gameFieldListener);
+      item.removeEventListener("drop", drop);
+      item.removeEventListener("dragenter", dragEnter);
+      item.removeEventListener("dragleave", dragLeave);
+      item.removeEventListener("dragstart", dragStart);
     });
     const str: string[] = word.split(" ");
     let size: number = 0;
@@ -411,9 +419,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const answer: string[] = str.map((item, i) => {
       if (BACKGROUND_HINT) {
-        return `<div class="game__item" style="background-image: url('${imgSrc.src}');" draggable="true">${item}</div>`;
+        return `<div class="game__item" id="${line}-${i}" style="background-image: url('${imgSrc.src}');" draggable="true">${item}</div>`;
       }
-      return `<div class="game__item" style="background-image: none');" draggable="true">${item}</div>`;
+      return `<div class="game__item" id="${line}-${i}" style="background-image: none');" draggable="true">${item}</div>`;
     });
 
     answerField!.style.opacity = "0";
@@ -443,11 +451,20 @@ document.addEventListener("DOMContentLoaded", () => {
       answerField.append(item);
     });
     gameItems[line - 1].addEventListener("click", gameFieldListener);
+    gameItems[line - 1].addEventListener("drop", drop);
+    gameItems[line - 1].addEventListener("dragenter", dragEnter);
+    gameItems[line - 1].addEventListener("dragleave", dragLeave);
+    gameItems[line - 1].addEventListener("dragstart", dragStart);
+    // gameItems[line - 1].addEventListener("drop", (e: DragEvent) => {
 
-    gameItems[line - 1].addEventListener("drop", (e) => {
-      e.preventDefault();
-      console.log(e.target);
-    });
+    //   const target = e.target as HTMLDivElement;
+    //   let itemId = e.dataTransfer?.getData("id");
+    //   const element = document.getElementById(itemId!) as HTMLDivElement;
+    //   target.append(element);
+    //   if (gameItems[line - 1].children.length === str.length) {
+    //     checkBtn.style.display = "block";
+    //   }
+    // });
   }
 
   answerField.addEventListener("click", (e: MouseEvent) => {
@@ -460,6 +477,12 @@ document.addEventListener("DOMContentLoaded", () => {
       checkBtn.style.display = "block";
     }
   });
+
+  answerField.addEventListener("dragstart", (e: DragEvent) => {
+    const target = e.target as HTMLDivElement;
+    e.dataTransfer!.setData("id", target.id);
+  });
+  answerField.addEventListener("drop", drop);
 
   // gameItems[line - 1].addEventListener("drop", (e) => {
   //   e.preventDefault();
@@ -490,6 +513,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (gameItems[line - 1].children.length !== str.length) {
       checkBtn.style.display = "none";
+    }
+  }
+  function drop(e: DragEvent) {
+    const target = e.target as HTMLDivElement;
+    target.style.boxShadow = "none";
+    let itemId = e.dataTransfer?.getData("id");
+    const element = document.getElementById(itemId!) as HTMLDivElement;
+    if (element) {
+      if (target.classList.contains("game__items")) {
+        target.append(element);
+      } else if (target.classList.contains("game__item")) {
+        target.before(element);
+      } else if (target.classList.contains("answer__field")) {
+        target.append(element);
+      }
+    }
+
+    if (gameItems[line - 1].children.length === word.split(" ").length) {
+      checkBtn.style.display = "block";
     }
   }
 
