@@ -91,6 +91,7 @@
     background-size: 768px 430px;
     transition: background-image 3s ease;
     // background-image: url("./assets/images/level1/riverla2.jpg");
+    overflow: hidden;
   }
   &__items {
     display: flex;
@@ -99,6 +100,7 @@
     height: 43px;
   }
   &__item {
+    position: relative;
     box-sizing: border-box;
     background-size: 768px 430px;
     background-position: 0 0;
@@ -112,6 +114,26 @@
     line-height: 43px;
     //background-image: url("./assets/images/level1/riverla2.jpg");
     cursor: pointer;
+    //background: radial-gradient(calc(14px + 2px) at calc(100% + 2px) 50%, #0000 95%, red) top/100% no-repeat;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-top-left-radius: 35%;
+      border-bottom-left-radius: 35%;
+      // border-radius: 50%;
+      top: 12px;
+      right: -16px;
+      background-color: #c5c5c5;
+      z-index: 100;
+      // border: 1px solid black;
+      border-top: 1px solid black;
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+    }
   }
 }
 .description__field {
