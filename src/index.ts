@@ -444,6 +444,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const itemsWithPaddings = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
     answerField.innerHTML = "";
+    console.log(itemsWithPaddings[0]);
+    console.log(window.getComputedStyle(itemsWithPaddings[0], ":after").width);
+
+    // let style = document.createElement("style");
+    // style.innerHTML = `
+    //   .game__item::after {
+    //     background-image: url('${imgSrc.src}');
+    //     background-size: 768px 430px;
+
+    //   }
+    // `;
+    // itemsWithPaddings[0].appendChild(style);
 
     const startPosition = isShuffle === true ? shuffle([...itemsWithPaddings]) : [...itemsWithPaddings];
     answerField!.style.opacity = "1";

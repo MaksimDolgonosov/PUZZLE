@@ -129,6 +129,7 @@
       right: -16px;
       background-color: #c5c5c5;
       z-index: 100;
+      // background-image: url("./assets/images/level1/cut/deerhunt.jpg");
       // border: 1px solid black;
       border-top: 1px solid black;
       border-right: 1px solid black;
@@ -175,6 +176,7 @@
   width: 768px;
   height: 43px;
   background-color: #c5c5c5;
+  overflow: hidden;
   // border: 2px solid grey;
 }
 .buttons__field {
