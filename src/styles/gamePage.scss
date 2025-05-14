@@ -91,7 +91,7 @@
     background-size: 768px 430px;
     transition: background-image 3s ease;
     // background-image: url("./assets/images/level1/riverla2.jpg");
-    overflow: hidden;
+    // overflow: hidden;
   }
   &__items {
     display: flex;
@@ -115,8 +115,8 @@
     //background-image: url("./assets/images/level1/riverla2.jpg");
     cursor: pointer;
     //background: radial-gradient(calc(14px + 2px) at calc(100% + 2px) 50%, #0000 95%, red) top/100% no-repeat;
-    &::after {
-      content: "";
+    &-after {
+      // content: "";
       position: absolute;
       width: 15px;
       height: 15px;
@@ -126,8 +126,9 @@
       border-bottom-left-radius: 35%;
       // border-radius: 50%;
       top: 12px;
-      right: -16px;
+      right: -15px;
       background-color: #c5c5c5;
+      background-size: 768px 430px;
       z-index: 100;
       // background-image: url("./assets/images/level1/cut/deerhunt.jpg");
       // border: 1px solid black;
@@ -176,7 +177,7 @@
   width: 768px;
   height: 43px;
   background-color: #c5c5c5;
-  overflow: hidden;
+  // overflow: hidden;
   // border: 2px solid grey;
 }
 .buttons__field {

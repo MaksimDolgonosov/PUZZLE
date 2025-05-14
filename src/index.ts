@@ -127,9 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
     backgroundHint.querySelector("circle")!.style.fill = "#2CAB61";
     itemsOnAnswerField.forEach((item: HTMLDivElement) => {
       item.style.backgroundImage = `url('${imgSrc.src}')`;
+      (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `url('${imgSrc.src}')`;
     });
     itemsOnGameField.forEach((item: HTMLDivElement) => {
       item.style.backgroundImage = `url('${imgSrc.src}')`;
+      (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `url('${imgSrc.src}')`;
     });
   } else {
     const itemsOnAnswerField = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
@@ -138,9 +140,11 @@ document.addEventListener("DOMContentLoaded", () => {
     backgroundHint.querySelector("circle")!.style.fill = "grey";
     itemsOnAnswerField.forEach((item: HTMLDivElement) => {
       item.style.backgroundImage = "none";
+      (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `none`;
     });
     itemsOnGameField.forEach((item: HTMLDivElement) => {
       item.style.backgroundImage = "none";
+      (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `none`;
     });
   }
 
@@ -179,9 +183,11 @@ document.addEventListener("DOMContentLoaded", () => {
       backgroundHint.querySelector("circle")!.style.fill = "grey";
       itemsOnAnswerField.forEach((item: HTMLDivElement) => {
         item.style.backgroundImage = "none";
+        (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `none`;
       });
       itemsOnGameField.forEach((item: HTMLDivElement) => {
         item.style.backgroundImage = "none";
+        (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `none`;
       });
       BACKGROUND_HINT = false;
       localStorage.setItem("background-hint", "false");
@@ -190,9 +196,11 @@ document.addEventListener("DOMContentLoaded", () => {
       backgroundHint.querySelector("circle")!.style.fill = "#2CAB61";
       itemsOnAnswerField.forEach((item: HTMLDivElement) => {
         item.style.backgroundImage = `url('${imgSrc.src}')`;
+        (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `url('${imgSrc.src}')`;
       });
       itemsOnGameField.forEach((item: HTMLDivElement) => {
         item.style.backgroundImage = `url('${imgSrc.src}')`;
+        (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `url('${imgSrc.src}')`;
       });
       BACKGROUND_HINT = true;
       localStorage.setItem("background-hint", "true");
@@ -273,38 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loginPage.style.display = "flex";
   });
 
-  // firstnameInput.addEventListener("input", (e: Event) => {
-  //   let input = e.target as HTMLInputElement;
-
-  //   if (input.value.match(/^[A-Z]/) || input.value === "") {
-  //     errorFirstname.textContent = ``;
-  //     input.style.border = "none";
-  //   } else {
-  //     errorFirstname.textContent = `The first letter must be in English uppercase!`;
-  //     input.style.border = "2px solid red";
-  //     return;
-  //   }
-
-  //   //console.log(input.value.match(/^[A-Z][A-Za-z]*$/g));
-  //   if (input.value.match(/^[A-Z][A-Za-z]*$/g) || input.value === "") {
-  //     errorFirstname.textContent = ``;
-  //     input.style.border = "none";
-  //   } else {
-  //     errorFirstname.textContent = `Must be only English letters or hyphen ('-') symbol!`;
-  //     input.style.border = "2px solid red";
-  //     return;
-  //   }
-  //   if (input.value.length >= 3 || input.value === "") {
-  //     errorFirstname.textContent = ``;
-  //     input.style.border = "none";
-  //   } else {
-  //     errorFirstname.textContent = `Must be minimum 3 letters`;
-  //     input.style.border = "2px solid red";
-  //     return;
-  //   }
-
-  // });
-
   firstnameInput.addEventListener("input", (e) => validation(e, 3, "firstname"));
   lastnameInput.addEventListener("input", (e) => validation(e, 4, "lastname"));
 
@@ -331,9 +307,10 @@ document.addEventListener("DOMContentLoaded", () => {
     remBoxShadow();
     if (line < 10) {
       // gameItems[line - 1].removeEventListener("click", gameFieldListener);
-
+      gameItems[line - 1].style.overflow = "hidden";
       line += 1;
       word = setWordSource(level, page, line).textExample;
+
       start(line, word, true);
       nextBtn.style.display = "none";
     } else {
@@ -382,7 +359,9 @@ document.addEventListener("DOMContentLoaded", () => {
         IDontKnow: [],
         IKnow: [],
       };
-
+      gameItems.forEach((item) => {
+        item.style.overflow = "visible";
+      });
       start(line, word, true);
     });
   });
@@ -400,6 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
     wordSrc = setWordSource(level, page, line);
     translation.textContent = wordSrc.textExampleTranslate;
     const answerField = document.querySelector(".answer__field") as HTMLDivElement;
+    answerField.innerHTML = "";
     gameItems.forEach((item) => {
       item.removeEventListener("click", gameFieldListener);
       item.removeEventListener("drop", drop);
@@ -410,6 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const str: string[] = word.split(" ");
     let size: number = 0;
     let width: number = 0;
+    let afterElements: number = 0;
     const currentLine = document.querySelector(`[data-line="${line}"]`) as HTMLDivElement;
     currentLine!.style.opacity = "1";
     currentLine!.style.color = "red";
@@ -419,9 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const answer: string[] = str.map((item, i) => {
       if (BACKGROUND_HINT) {
-        return `<div class="game__item" id="${line}-${i}" style="background-image: url('${imgSrc.src}');" draggable="true">${item}</div>`;
+        return `<div class="game__item" id="${line}-${i}" style="background-image: url('${imgSrc.src}');" draggable="true"><div class="game__item-after" style="background-image: url('${imgSrc.src}');"></div>${item}</div>`;
       }
-      return `<div class="game__item" id="${line}-${i}" style="background-image: none');" draggable="true">${item}</div>`;
+      return `<div class="game__item" id="${line}-${i}" style="background-image: none');" draggable="true"><div class="game__item-after"></div>${item}</div>`;
     });
 
     answerField!.style.opacity = "0";
@@ -432,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const itemsWithoutPaddings = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
     for (let i = 0; i < itemsWithoutPaddings.length; i++) {
       size += itemsWithoutPaddings[i].getBoundingClientRect().width;
-      itemsWithoutPaddings[i];
+      // itemsWithoutPaddings[i];
     }
     for (let i = 0; i < itemsWithoutPaddings.length; i++) {
       itemsWithoutPaddings[i].style.padding = `0 ${(768 - size) / str.length / 2}px`;
@@ -443,19 +424,14 @@ document.addEventListener("DOMContentLoaded", () => {
       width += itemsWithoutPaddings[i].getBoundingClientRect().width;
     }
     const itemsWithPaddings = answerField.querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
+
+    for (let i = 0; i < itemsWithPaddings.length; i++) {
+      const afterElement = itemsWithPaddings[i].querySelector(".game__item-after") as HTMLDivElement;
+      afterElements += itemsWithPaddings[i].getBoundingClientRect().width;
+      afterElement.style.backgroundPosition = `-${afterElements}px ${-((line - 1) * 43) - 14}px`;
+    }
+
     answerField.innerHTML = "";
-    console.log(itemsWithPaddings[0]);
-    console.log(window.getComputedStyle(itemsWithPaddings[0], ":after").width);
-
-    // let style = document.createElement("style");
-    // style.innerHTML = `
-    //   .game__item::after {
-    //     background-image: url('${imgSrc.src}');
-    //     background-size: 768px 430px;
-
-    //   }
-    // `;
-    // itemsWithPaddings[0].appendChild(style);
 
     const startPosition = isShuffle === true ? shuffle([...itemsWithPaddings]) : [...itemsWithPaddings];
     answerField!.style.opacity = "1";
@@ -466,17 +442,12 @@ document.addEventListener("DOMContentLoaded", () => {
     gameItems[line - 1].addEventListener("drop", drop);
     gameItems[line - 1].addEventListener("dragenter", dragEnter);
     gameItems[line - 1].addEventListener("dragleave", dragLeave);
-    gameItems[line - 1].addEventListener("dragstart", dragStart);
-    // gameItems[line - 1].addEventListener("drop", (e: DragEvent) => {
-
-    //   const target = e.target as HTMLDivElement;
-    //   let itemId = e.dataTransfer?.getData("id");
-    //   const element = document.getElementById(itemId!) as HTMLDivElement;
-    //   target.append(element);
-    //   if (gameItems[line - 1].children.length === str.length) {
-    //     checkBtn.style.display = "block";
-    //   }
-    // });
+    gameItems[line - 1].addEventListener("dragstart", (e: DragEvent) => {
+      dragStart(e);
+      for (let i = 0; i < gameItems[line - 1].children.length; i++) {
+        (gameItems[line - 1].children[i] as HTMLDivElement).style.boxShadow = Position.RESET;
+      }
+    });
   }
 
   answerField.addEventListener("click", (e: MouseEvent) => {
@@ -495,14 +466,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.dataTransfer!.setData("id", target.id);
   });
   answerField.addEventListener("drop", drop);
-
-  // gameItems[line - 1].addEventListener("drop", (e) => {
-  //   e.preventDefault();
-  //   console.log(this);
-  // });
-  // gameItems[line - 1].addEventListener("dragover", (e) => {
-  //   e.preventDefault();
-  // });
 
   function putOnGameField(e: MouseEvent, line: number) {
     const element = e.target as HTMLDivElement;
@@ -566,6 +529,7 @@ document.addEventListener("DOMContentLoaded", () => {
       (gameItems[line].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>).forEach(
         (item: HTMLDivElement) => {
           item.style.backgroundImage = `url('${imgSrc.src}')`;
+          (item.querySelector(".game__item-after") as HTMLDivElement).style.backgroundImage = `url('${imgSrc.src}')`;
         }
       );
       // const itemsOnGameField = gameItems[line - 1].querySelectorAll(".game__item") as NodeListOf<HTMLDivElement>;
