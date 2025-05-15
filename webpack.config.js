@@ -19,7 +19,7 @@ const esLintPlugin = (isDev) => isDev ? [] : [new ESLintPlugin({ extensions: ['t
 
 module.exports = ({ develop }) => ({
   mode: develop ? "development" : "production",
-  devtool: develop ? "inline-source-map" : "none",
+  devtool: develop ? "eval-source-map" : "nosources-source-map",
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -63,5 +63,8 @@ module.exports = ({ develop }) => ({
     new MiniCssExtractPlugin({ filename: 'style.css' }),
     new CopyPlugin({patterns: [{ from: "./src/assets", to: "./assets" }]}),
   ],
+  stats: {
+    children: true
+  },
   devServer: devServer(develop)
 });
