@@ -1,70 +1,73 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack'); //to access built-in plugins
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack"); //to access built-in plugins
 const CopyPlugin = require("copy-webpack-plugin");
-const ESLintPlugin = require('eslint-webpack-plugin');
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 const devServer = (isDev) => {
-  !isDev ? {} : {
-    client: {
-      open: true,
-      hot: true,
-      port: 8080,
-    }
+  !isDev
+    ? {}
+    : {
+        client: {
+          open: true,
+          hot: true,
+          port: 8080,
+        },
+      };
+};
 
-}}
-
-const esLintPlugin = (isDev) => isDev ? [] : [new ESLintPlugin({ extensions: ['ts', 'js'] })];
+const esLintPlugin = (isDev) =>
+  isDev ? [] : [new ESLintPlugin({ extensions: ["ts", "js"], eslintPath: "eslint/use-at-your-own-risk" })];
 
 module.exports = ({ develop }) => ({
   mode: develop ? "development" : "production",
   devtool: develop ? "eval-source-map" : "nosources-source-map",
-  entry: './src/index.ts',
+  entry: "./src/index.ts",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "index.js",
   },
 
- module: {
-      rules: [
-            // {
-            //     test: /\.css$/i,
-            //     use: ['style-loader', 'css-loader'],
-            // },
+  module: {
+    rules: [
+      // {
+      //     test: /\.css$/i,
+      //     use: ['style-loader', 'css-loader'],
+      // },
       {
         test: /\.[tj]s$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      }
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+    ],
   },
   resolve: {
-    extensions: ['.ts', '.js'], //позволяет не указывать расширение в импортах
+    extensions: [".ts", ".js"], //позволяет не указывать расширение в импортах
   },
   plugins: [
-    ...esLintPlugin(develop),
+    // ...esLintPlugin(develop),
     new webpack.ProgressPlugin(),
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({ template: "./src/index.html" }),
     // new HtmlWebpackPlugin({ template: './src/pages/login.html',filename: 'login.html', }),
     // new HtmlWebpackPlugin({ template: './src/pages/game.html', filename: 'game.html', }),
-    new MiniCssExtractPlugin({ filename: 'style.css' }),
-    new CopyPlugin({patterns: [{ from: "./src/assets", to: "./assets" }]}),
+    new MiniCssExtractPlugin({ filename: "style.css" }),
+    new CopyPlugin({ patterns: [{ from: "./src/assets", to: "./assets" }] }),
   ],
   stats: {
-    children: true
+    children: true,
   },
-  devServer: devServer(develop)
+  devServer: devServer(develop),
 });

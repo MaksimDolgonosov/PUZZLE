@@ -548,5 +548,5 @@ function fn(n: number) {
   } else {
     return false;
   }
-  return true;
+  //return true;
 }
